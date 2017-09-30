@@ -221,12 +221,6 @@
       height:100%;
       width:100%;  
     }
-    #stackV {background-color:#999999;}
-    #stackV:hover {background-color:#BBBBBB !important;}
-    #stackV.horizontal {background-color:transparent;}
-    #stackV.horizontal:hover {background-color:#BBBBBB !important;}
-    #stackH.horizontal {background-color:#999999;}
-    #stackH.horizontal:hover {background-color:#999999 !important;}
     #textareacontainer.horizontal,#iframecontainer.horizontal{
       height:50%;
       float:none;
@@ -273,14 +267,14 @@
     }
 
     @font-face {
-    font-family: 'FontAwesome';
-    src:url('./fonts/FontAwesome.otf') format('opentype');
-    src:url('./fonts/fontawesome-webfont.eot') format('embedded-opentype'),
-        url('./fonts/fontawesome-webfont.woff') format('woff'),
-        url('./fonts/fontawesome-webfont.ttf') format('truetype'),
-        url('./fonts/fontawesome-webfont.svg') format('svg');
-    font-weight:normal;
-    font-style:normal;
+      font-family: 'FontAwesome';
+      src:url('./fonts/FontAwesome.otf') format('opentype');
+      src:url('./fonts/fontawesome-webfont.eot') format('embedded-opentype'),
+          url('./fonts/fontawesome-webfont.woff') format('woff'),
+          url('./fonts/fontawesome-webfont.ttf') format('truetype'),
+          url('./fonts/fontawesome-webfont.svg') format('svg');
+      font-weight:normal;
+      font-style:normal;
     }
     .fa {
       display:inline-block;
@@ -574,6 +568,7 @@ function sortList() {
   }
   var currentStack=true;
   var  htextareaheight=50, vtextareawidth=50;
+
   if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || stack == " horizontal") {restack(true);}
   function restack(horizontal) {
       stack = "";
@@ -687,7 +682,7 @@ function sortList() {
     window.addEventListener("touchend", dragend);
     window.addEventListener("load", fixDragBtn);
     window.addEventListener("load", showFrameSize);
-    window.addEventListener("keyup",submitTryit);
+    window.addEventListener("keyup", function(e) {if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {submitTryit(1)};});
   }
   function click_savebtn() {
     if (window.editor) {
@@ -990,6 +985,8 @@ function sortList() {
           openMenu();
       }
       
+  }
+  window.onkeyup = function(event) {console.log(event.key);
   }
 
 </script>
