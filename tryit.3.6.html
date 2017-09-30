@@ -575,29 +575,8 @@ function sortList() {
   if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || stack == " horizontal") {restack(true);}
   function restack(horizontal) {
       var tc, ic, t, i, c, f, sv, sh, d, height, flt, width;
-      /*tc = document.getElementById("textareacontainer");
-      ic = document.getElementById("iframecontainer");
-      t = document.getElementById("textarea");
-      i = document.getElementById("iframe");
-      c = document.getElementById("container");    
-      sv = document.getElementById("stackV");
-      sh = document.getElementById("stackH");
-      tc.className = tc.className.replace("horizontal", "");
-      ic.className = ic.className.replace("horizontal", "");        
-      t.className = t.className.replace("horizontal", "");        
-      i.className = i.className.replace("horizontal", "");        
-      c.className = c.className.replace("horizontal", "");                        
-      if (sv) {sv.className = sv.className.replace("horizontal", "")};
-      if (sh) {sh.className = sh.className.replace("horizontal", "")};*/
       stack = "";
       if (horizontal) {
-          /*tc.className = tc.className + " horizontal";
-          ic.className = ic.className + " horizontal";        
-          t.className = t.className + " horizontal";        
-          i.className = i.className + " horizontal";                
-          c.className = c.className + " horizontal";                
-          if (sv) {sv.className = sv.className + " horizontal"};
-          if (sh) {sh.className = sh.className + " horizontal"};*/
           stack = " horizontal";
           document.getElementById("textareacontainer").style.height = htextareaheight + "%";
           document.getElementById("textareacontainer").style.width = "100%";
