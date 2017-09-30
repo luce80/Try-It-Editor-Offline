@@ -395,15 +395,13 @@
 </div>
 
 <div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto">
-	<!--div class="w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto"-->
-		<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
-		<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
-		<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Save</button>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
-		<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
-		<span class="w3-right w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
-	<!--/div-->
+	<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
+	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
+	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Save</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
+	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
+	<span class="w3-right w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
 </div>
 
 <div id="shield"></div>
@@ -532,12 +530,7 @@ function sortList() {
 			window.editor.save();
 		}
 		var text = document.getElementById("textareaCode").value;
-		var ifr = document.getElementById("iframeResult");//document.createElement("iframe");
-		/*ifr.setAttribute("frameborder", "0");
-		ifr.setAttribute("id", "iframeResult");
-		ifr.setAttribute("name", "iframeResult"); */
-		//document.getElementById("iframewrapper").innerHTML = "";
-		//document.getElementById("iframewrapper").appendChild(ifr);
+		var ifr = document.getElementById("iframeResult");
 		if (loadSave == true ) {
 			ifr.setAttribute("src", "/code/opentext.htm");
 		} else if (fileID != "" && loadSave == false) {
@@ -560,7 +553,6 @@ function sortList() {
 			ifrw.document.open();
 			ifrw.document.write(text);  
 			ifrw.document.close();
-			//document.getElementById("iframeResult").body = text;
 			//23.02.2016: contentEditable is set to true, to fix text-selection (bug) in firefox.
 			//(and back to false to prevent the content from being editable)
 			//(To reproduce the error: Select text in the result window with, and without, the contentEditable statements below.)  
