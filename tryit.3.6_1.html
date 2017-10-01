@@ -325,7 +325,7 @@
 
 
 
-<script>globalURL = 'file:///E:/Programmi/Web/WebAuthoring/Tryit%20Editor%20v3.5/';</script>
+<script>globalURL = 'https://www.google.com';</script>
 <div id="saveModal" class="w3-modal" style="z-index:4">
 	<div class="w3-modal-content">
 		<div class="w3-display-container">
@@ -873,7 +873,7 @@ function sortList() {
 	}
 
 	function saveFile(code) {
-			document.getElementById('preSave').style.display='none';
+			/*document.getElementById('preSave').style.display='none';
 			if (code.length>20000) {
 					document.getElementById('errorSave').style.display='block';    
 					return;
@@ -898,7 +898,15 @@ function sortList() {
 					}
 			}
 			}
-			httpB.send(paramB);
+			httpB.send(paramB);*/
+
+			var ifr = document.getElementById("iframeResult");
+			var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+			var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
+		//var text = document.getElementById("textareaCode").value;
+		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
+		saveAs(blob, "Test.html");
+
 	}
 	function hideAndResetModal() {
 			document.getElementById("saveModal").style.display = "none";
@@ -985,6 +993,7 @@ function sortList() {
 	//window.onkeyup = function(event) {console.log(event.key);}
 
 </script>
+<script src="js/FileSaver.js"></script>
 
 <!--script src="https://apis.google.com/js/client.js?onload=checkAuth"></script-->
 
