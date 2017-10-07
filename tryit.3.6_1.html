@@ -394,11 +394,16 @@
 	</div>
 </div>
 
-<div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto">
+<div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto" id="topnav">
 	<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
 	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
 	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Save</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFile('test')">Load</button>
+	<input title="View source" class="w3-bar-item"></input>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Download</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="viewFile();">View source</button>
+	<a href="view-source:" target="_top" title="View source" class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green">View source</a>
+	<!--button class="button" onClick='window.location.assign("view-source:" + window.location.href)'>View Source</button-->
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
 	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
 	<span class="w3-right w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
@@ -560,6 +565,7 @@ function sortList() {
 				ifrw.document.body.contentEditable = true;
 				ifrw.document.body.contentEditable = false;
 			}
+			ifrw.document.body.contentEditable = true;
 		}
 	}
 	var currentStack=true;
@@ -695,7 +701,6 @@ function sortList() {
 	function click_google_loadbtn() {
 		document.getElementById('driveLoadModal').style.display='block'
 	}
-
 
 	function colorcoding() {  
 		window.editor = CodeMirror.fromTextArea(document.getElementById("textareaCode"), {
@@ -872,6 +877,17 @@ function sortList() {
 			document.getElementById('driveLoadModal').style.display='none'
 	}
 
+	function loadFile(code) {
+		var ifr = document.getElementById("iframeResult");
+		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
+		//ifrw.location.assign(dir + "Test.html");
+		//ifrw.location.replace(dir + "Test.html");
+		ifrw.location.href = dir + "Test.html";
+		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		document.getElementById("textareaCode").value = text;
+		window.editor.getDoc().setValue(text);
+	}
 	function saveFile(code) {
 			/*document.getElementById('preSave').style.display='none';
 			if (code.length>20000) {
@@ -902,11 +918,26 @@ function sortList() {
 
 		var ifr = document.getElementById("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-		var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
-		//var text = document.getElementById("textareaCode").value;
+		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		saveAs(blob, "Test.html");
 
+	}
+	function viewFile(code) {
+		var ifr = document.getElementById("iframeResult");
+		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		var source = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
+		//source = window.editor.getDoc().getValue("\n");
+		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
+	    //now we need to escape the html special chars, javascript has escape
+    	//but this does not do what we want
+    	source = source.replace(/</g, "&lt;");//.replace(/>/g, "&gt;");
+    	//now we add <pre> tags to preserve whitespace
+    	source = "<pre>"+source+"</pre>";
+		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
+		sourceWindow.document.write(source);
+		sourceWindow.document.close(); //close the document for writing, not the window
 	}
 	function hideAndResetModal() {
 			document.getElementById("saveModal").style.display = "none";
@@ -994,7 +1025,27 @@ function sortList() {
 
 </script>
 <script src="js/FileSaver.js"></script>
-
+<script>
+	function KeySimulation()
+	{
+	var e = document.createEvent("KeyboardEvent");
+	if (e.initKeyboardEvent) {  // Chrome, IE
+		e.initKeyboardEvent("keyup", true, true, document.defaultView, "Enter", 0, "", false, "");
+	} else { // FireFox
+		//e.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, 13, 0);
+		e.initKeyEvent("keydown", true, true, window, true, false, true, false, "U".charCodeAt(0), 85);
+	}
+	console.log(e);
+	document.body.dispatchEvent(e);
+	//var e = new KeyboardEvent("keydown", {bubbles : true, cancelable : true, key : "U", char : "U", shiftKey : true, ctrlKey: true, charCode: 85, keyCode: 85});
+	var e = new KeyboardEvent("keydown", {target : window, bubbles : true, cancelable : true, key : "u", char : "u", ctrlKey: true, charCode: 117, keyCode: 117});
+	console.log(e);
+	document.getElementById("topnav").dispatchEvent(e);
+	}
+	</script>
+	
+	<!--input type="button" onclick="KeySimulation();" value=" Key Simulation " />
+	<textarea id="MyTextArea" rows="15" cols="30"></textarea-->
 <!--script src="https://apis.google.com/js/client.js?onload=checkAuth"></script-->
 
 
