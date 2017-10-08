@@ -7,7 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/codemirror.css">
-
+	<link rel="stylesheet" href="css/tit-fontello.css">
+	
 	<script src="js/codemirror.js"></script>
 	<!--script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -60,6 +61,9 @@
 		});
 	</script-->
 	<script>
+		function $Id(id) {return document.getElementById(id)};
+		function $Tag(tag) {return document.getElementsByTagName(tag)};
+
 		if (window.addEventListener) {              
 				window.addEventListener("resize", browserResize);
 		} else if (window.attachEvent) {                 
@@ -98,7 +102,7 @@
 				httpA.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				httpA.onreadystatechange = function() {
 						if(httpA.readyState == 4 && httpA.status == 200) {
-								document.getElementById("textareaCode").value = httpA.responseText;
+								$Id("textareaCode").value = httpA.responseText;
 								window.editor.getDoc().setValue(httpA.responseText);
 								loadSave = false;
 						}
@@ -181,7 +185,7 @@
 			width:100%;
 			overflow:auto;
 			position:absolute;
-			top:48px;
+			top:calc(5px + 38px);
 			bottom:0;
 			height:auto;
 		}
@@ -280,16 +284,27 @@
 			#tryhome       {display:block;}
 		}
 
-		@font-face {
+		[class*="tit-icon-"] {
+			display:inline-block;
+			font:normal normal normal 14px/1 tit-fontello;
+			font-size:18px;
+			text-rendering:auto;
+			-webkit-font-smoothing:antialiased;
+			-moz-osx-font-smoothing:grayscale;
+			transform:translate(0,0);
+			margin-top:2px;
+			padding-left: 12px;
+		}
+		/*@font-face {
 			font-family: 'FontAwesome';
-			src:url('./fonts/FontAwesome.otf') format('opentype');
-			src:url('./fonts/fontawesome-webfont.eot') format('embedded-opentype'),
+			src:url('./font/FontAwesome.otf') format('opentype');
+			src:url('./font/fontawesome-webfont.eot') format('embedded-opentype'),
 				url('./fonts/fontawesome-webfont.woff') format('woff'),
 				url('./fonts/fontawesome-webfont.ttf') format('truetype'),
 				url('./fonts/fontawesome-webfont.svg') format('svg');
 			font-weight:normal;
 			font-style:normal;
-		}
+		}*/
 		.fa {
 			display:inline-block;
 			font:normal normal normal 14px/1 FontAwesome;
@@ -338,11 +353,11 @@
 				<p>If you click the save button, your code will be saved, and you get an URL you can share with others.</p>
 				<div style="height:34px">
 					<p>
-						<button class="w3-btn w3-green" style="margin-right:15px" title="Save" onclick="saveFile(document.getElementById('textareaCode').value);">Save</button>
+						<button class="w3-btn w3-green" style="margin-right:15px" title="Save" onclick="saveFile($Id('textareaCode').value);">Save</button>
 						<button class="w3-btn w3-red" title="Cancel" style="margin-right:15px" onclick="hideAndResetModal();">Cancel</button>
 					</p>
 				</div>
-				<p>By clicking the "Save" button you agree to our <a href="javascript:void(0);" class="w3-hover-text-green" onclick="document.getElementById('saveDisclaimer').style.display='block';">terms and conditions</a>.</p>
+				<p>By clicking the "Save" button you agree to our <a href="javascript:void(0);" class="w3-hover-text-green" onclick="$Id('saveDisclaimer').style.display='block';">terms and conditions</a>.</p>
 				<p><a href="/default.asp" onclick="event.preventDefault();displayError()">Report Error</a></p>
 				<div id="saveDisclaimer" style="display:none;">
 					<p>All code in shared files are supplied by users, and belongs to the poster.</p>
@@ -399,17 +414,17 @@
 
 <div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto" id="topnav">
 	<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
-	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:22px;color:#999999;margin-top:2px"></a>
-	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:22px;color:#999999;margin-top:2px"></a>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFile('test')">Load</button>
+	<!--a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item " style="font-size:18px;color:#999999;margin-top:2px"></a-->
+	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
+	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
 	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Download</button>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="viewFile();">View source</button>
-	<a href="view-source:" target="_top" title="View source" class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green">View source</a>
-	<!--button class="button" onClick='window.location.assign("view-source:" + window.location.href)'>View Source</button-->
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="saveFile('test')" title="Download HTML"></button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewFile();" title="View source"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
 	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
-	<span class="w3-right w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
+	<span class="w3-right w3-bar-item w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
 </div>
 
 <div id="shield"></div>
@@ -508,7 +523,7 @@ function sortList() {
 </div>
 <div id="err_form" class="w3-modal" style="z-index:4">
 	<div class="w3-modal-content w3-display-container">
-		<span onclick="document.getElementById('err_form').style.display='none'" class="w3-button w3-display-topright w3-text-white w3-padding w3-green" style="font-weight:bold;">&times;</span>
+		<span onclick="$Id('err_form').style.display='none'" class="w3-button w3-display-topright w3-text-white w3-padding w3-green" style="font-weight:bold;">&times;</span>
 		<div class="w3-container w3-green">
 			<h2>Report a Problem:</h2>
 		</div>
@@ -537,8 +552,8 @@ function sortList() {
 		if (window.editor) {
 			window.editor.save();
 		}
-		var text = document.getElementById("textareaCode").value;
-		var ifr = document.getElementById("iframeResult");
+		var text = $Id("textareaCode").value;
+		var ifr = $Id("iframeResult");
 		if (loadSave == true ) {
 			ifr.setAttribute("src", "/code/opentext.htm");
 		} else if (fileID != "" && loadSave == false) {
@@ -550,12 +565,12 @@ function sortList() {
 				t=t.substring(0,pos) + "w3" + t.substr(pos,3) + "w3" + t.substr(pos+3,3) + "tag" + t.substr(pos+6);
 				pos=t.search(/script/i);
 			}
-			document.getElementById("code").value=t;
-			document.getElementById("codeForm").action = "https://tryit.w3schools.com/tryit_view.php?x=" + Math.random();
-			document.getElementById('codeForm').method = "post";
-			document.getElementById('codeForm').acceptCharset = "utf-8";
-			document.getElementById('codeForm').target = "iframeResult";
-			document.getElementById("codeForm").submit();
+			$Id("code").value=t;
+			$Id("codeForm").action = "https://tryit.w3schools.com/tryit_view.php?x=" + Math.random();
+			$Id('codeForm').method = "post";
+			$Id('codeForm').acceptCharset = "utf-8";
+			$Id('codeForm').target = "iframeResult";
+			$Id("codeForm").submit();
 		} else {
 			var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 			ifrw.document.open();
@@ -573,7 +588,7 @@ function sortList() {
 	}
 	function reEdited() {
 		var text = frameHTML();
-		document.getElementById("textareaCode").value = text;
+		$Id("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
 	}
 	var currentStack=true;
@@ -584,16 +599,16 @@ function sortList() {
 			stack = "";
 			if (horizontal) {
 					stack = " horizontal";
-					document.getElementById("textareacontainer").style.height = htextareaheight + "%";
-					document.getElementById("textareacontainer").style.width = "100%";
-					document.getElementById("iframecontainer").style.height = (100 - htextareaheight) + "%";
-					document.getElementById("iframecontainer").style.width = "100%";
+					$Id("textareacontainer").style.height = htextareaheight + "%";
+					$Id("textareacontainer").style.width = "100%";
+					$Id("iframecontainer").style.height = (100 - htextareaheight) + "%";
+					$Id("iframecontainer").style.width = "100%";
 					currentStack=false;
 			} else {
-					document.getElementById("textareacontainer").style.height = "100%";
-					document.getElementById("textareacontainer").style.width = vtextareawidth + "%";
-					document.getElementById("iframecontainer").style.height = "100%";
-					document.getElementById("iframecontainer").style.width = (100 - vtextareawidth) + "%";
+					$Id("textareacontainer").style.height = "100%";
+					$Id("textareacontainer").style.width = vtextareawidth + "%";
+					$Id("iframecontainer").style.height = "100%";
+					$Id("iframecontainer").style.width = (100 - vtextareawidth) + "%";
 					currentStack=true;        
 			}
 			fixDragBtn();
@@ -602,22 +617,22 @@ function sortList() {
 	function showFrameSize() {
 		var t;
 		var width, height;
-		width = Number(w3_getStyleValue(document.getElementById("iframeResult"), "width").replace("px", "")).toFixed();
-		height = Number(w3_getStyleValue(document.getElementById("iframeResult"), "height").replace("px", "")).toFixed();
-		document.getElementById("framesize").innerHTML = "Result Size: <span>" + width + " x " + height + "</span>";
+		width = Number(w3_getStyleValue($Id("iframeResult"), "width").replace("px", "")).toFixed();
+		height = Number(w3_getStyleValue($Id("iframeResult"), "height").replace("px", "")).toFixed();
+		$Id("framesize").innerHTML = "Result Size: <span>" + width + " x " + height + "</span>";
 	}
 	var dragging = false;
 	var stack;
 	function fixDragBtn() {
 		var textareawidth, leftpadding, dragleft, containertop, buttonwidth, dragbar
-		var containertop = Number(w3_getStyleValue(document.getElementById("container"), "top").replace("px", ""));
-		dragbar = document.getElementById("dragbar");
+		var containertop = Number(w3_getStyleValue($Id("container"), "top").replace("px", ""));
+		dragbar = $Id("dragbar");
 		if (stack != " horizontal") {
 			dragbar.style.width = "5px";    
-			textareasize = Number(w3_getStyleValue(document.getElementById("textareawrapper"), "width").replace("px", ""));
-			leftpadding = Number(w3_getStyleValue(document.getElementById("textarea"), "padding-left").replace("px", ""));
+			textareasize = Number(w3_getStyleValue($Id("textareawrapper"), "width").replace("px", ""));
+			leftpadding = Number(w3_getStyleValue($Id("textarea"), "padding-left").replace("px", ""));
 			buttonwidth = Number(w3_getStyleValue(dragbar, "width").replace("px", ""));
-			textareaheight = w3_getStyleValue(document.getElementById("textareawrapper"), "height");
+			textareaheight = w3_getStyleValue($Id("textareawrapper"), "height");
 			dragleft = textareasize + leftpadding + (leftpadding / 2) - (buttonwidth / 2);
 			dragbar.style.top = containertop + "px";
 			dragbar.style.left = dragleft + "px";
@@ -627,12 +642,12 @@ function sortList() {
 		} else {
 			dragbar.style.height = "5px";
 			if (window.getComputedStyle) {
-					textareawidth = window.getComputedStyle(document.getElementById("textareawrapper"),null).getPropertyValue("height");
-					textareaheight = window.getComputedStyle(document.getElementById("textareawrapper"),null).getPropertyValue("width");
-					leftpadding = window.getComputedStyle(document.getElementById("textarea"),null).getPropertyValue("padding-top");
+					textareawidth = window.getComputedStyle($Id("textareawrapper"),null).getPropertyValue("height");
+					textareaheight = window.getComputedStyle($Id("textareawrapper"),null).getPropertyValue("width");
+					leftpadding = window.getComputedStyle($Id("textarea"),null).getPropertyValue("padding-top");
 					buttonwidth = window.getComputedStyle(dragbar,null).getPropertyValue("height");
 			} else {
-					dragleft = document.getElementById("textareawrapper").currentStyle["width"];
+					dragleft = $Id("textareawrapper").currentStyle["width"];
 			}
 			textareawidth = Number(textareawidth.replace("px", ""));
 			leftpadding = Number(leftpadding .replace("px", ""));
@@ -647,27 +662,27 @@ function sortList() {
 	function dragstart(e) {
 		e.preventDefault();
 		dragging = true;
-		var main = document.getElementById("iframecontainer");
+		var main = $Id("iframecontainer");
 	}
 	function dragmove(e) {
 		if (dragging) {
-			document.getElementById("shield").style.display = "block";        
+			$Id("shield").style.display = "block";        
 			if (stack != " horizontal") {
 				var percentage = (e.pageX / window.innerWidth) * 100;
 				if (percentage > 5 && percentage < 98) {
 					var mainPercentage = 100-percentage;
-					document.getElementById("textareacontainer").style.width = percentage + "%";
-					document.getElementById("iframecontainer").style.width = mainPercentage + "%";
+					$Id("textareacontainer").style.width = percentage + "%";
+					$Id("iframecontainer").style.width = mainPercentage + "%";
 					vtextareawidth = percentage;
 					fixDragBtn();
 				}
 			} else {
-				var containertop = Number(w3_getStyleValue(document.getElementById("container"), "top").replace("px", ""));
+				var containertop = Number(w3_getStyleValue($Id("container"), "top").replace("px", ""));
 				var percentage = ((e.pageY - containertop + 20) / (window.innerHeight - containertop + 20)) * 100;
 				if (percentage > 5 && percentage < 98) {
 					var mainPercentage = 100-percentage;
-					document.getElementById("textareacontainer").style.height = percentage + "%";
-					document.getElementById("iframecontainer").style.height = mainPercentage + "%";
+					$Id("textareacontainer").style.height = percentage + "%";
+					$Id("iframecontainer").style.height = mainPercentage + "%";
 					htextareaheight = percentage;
 					fixDragBtn();
 				}
@@ -677,7 +692,7 @@ function sortList() {
 		}
 	}
 	function dragend() {
-		document.getElementById("shield").style.display = "none";
+		$Id("shield").style.display = "none";
 		dragging = false;
 		if (window.editor) {
 			window.editor.refresh();
@@ -690,36 +705,36 @@ function sortList() {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {reEdited()};
 	}
 	if (window.addEventListener) {
-		document.getElementById("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
-		document.getElementById("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
+		$Id("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
+		$Id("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
 		window.addEventListener("mousemove", function(e) {dragmove(e);});
 		window.addEventListener("touchmove", function(e) {dragmove(e);});
 		window.addEventListener("mouseup", dragend);
 		window.addEventListener("touchend", dragend);
 		window.addEventListener("load", fixDragBtn);
 		window.addEventListener("load", showFrameSize);
-		document.getElementById("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
+		$Id("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
 	}
-	document.getElementById("iframeResult").contentWindow.addEventListener("keyup", keypressedinframe);
+	$Id("iframeResult").contentWindow.addEventListener("keyup", keypressedinframe);
 
 	function click_savebtn() {
 		if (window.editor) {
 			window.editor.save();
 		}
-		document.getElementById('saveModal').style.display = 'block';
+		$Id('saveModal').style.display = 'block';
 	}
 	function click_google_savebtn() {
 		if (window.editor) {
 			window.editor.save();
 		}
-		document.getElementById('driveSaveModal').style.display='block'
+		$Id('driveSaveModal').style.display='block'
 	}
 	function click_google_loadbtn() {
-		document.getElementById('driveLoadModal').style.display='block'
+		$Id('driveLoadModal').style.display='block'
 	}
 
 	function colorcoding() {  
-		window.editor = CodeMirror.fromTextArea(document.getElementById("textareaCode"), {
+		window.editor = CodeMirror.fromTextArea($Id("textareaCode"), {
 			mode: "text/html",
 			htmlMode: true,
 			lineWrapping: false,
@@ -781,9 +796,9 @@ function sortList() {
 			pickerApiLoaded = true;
 			if (userAction=="save") {
 					userAction="";
-					document.getElementById('driveText').style.display='none';
-					document.getElementById('driveSavedPanel').style.display='block';
-					createFileWithHTMLContent(document.getElementById('googleFileName').value,document.getElementById('textareaCode').value)     
+					$Id('driveText').style.display='none';
+					$Id('driveSavedPanel').style.display='block';
+					createFileWithHTMLContent($Id('googleFileName').value,$Id('textareaCode').value)     
 			}
 			if (userAction=="open") {
 					userAction="";
@@ -826,7 +841,7 @@ function sortList() {
 							if (myXHR.readyState == 4) {
 									if ( myXHR.status == 200 ) {
 											var code = myXHR.response;
-											document.getElementById("textareaCode").value=code;
+											$Id("textareaCode").value=code;
 											window.editor.getDoc().setValue(code);
 											submitTryit(1);
 											resetDriveLoadModal();
@@ -869,31 +884,31 @@ function sortList() {
 			if (!callback) {
 					callback = function(file) {
 							console.log(file);
-							document.getElementById("driveSavedText").innerHTML = file.name + " saved in Google Drive";
-							document.getElementById("driveSavedPanel").className = "w3-panel w3-large";
+							$Id("driveSavedText").innerHTML = file.name + " saved in Google Drive";
+							$Id("driveSavedPanel").className = "w3-panel w3-large";
 					};
 			}
 			request.execute(callback);
 	}
 
 	if (navigator.userAgent.indexOf("MSIE") > 0 || navigator.userAgent.indexOf("Edge") > 0) {
-			document.getElementById("saveGDriveBtn").style.display = "none";
-			document.getElementById("loadGDriveBtn").style.display = "none";
+			$Id("saveGDriveBtn").style.display = "none";
+			$Id("loadGDriveBtn").style.display = "none";
 	}
 
 
 	function resetDriveSaveModal() {
-			document.getElementById('driveSavedText').innerHTML='';
-			document.getElementById('driveSaveModal').style.display='none'
-			document.getElementById('driveSavedPanel').style.display='none'
-			document.getElementById('driveText').style.display='block'
-			document.getElementById("driveSavedPanel").className = "w3-panel w3-large loader";
+			$Id('driveSavedText').innerHTML='';
+			$Id('driveSaveModal').style.display='none'
+			$Id('driveSavedPanel').style.display='none'
+			$Id('driveText').style.display='block'
+			$Id("driveSavedPanel").className = "w3-panel w3-large loader";
 	}
 	function resetDriveLoadModal() {
-			document.getElementById('driveLoadModal').style.display='none'
+			$Id('driveLoadModal').style.display='none'
 	}
 	function frameWindow(){
-		var ifr = document.getElementById("iframeResult");
+		var ifr = $Id("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		return ifrw;
 	}
@@ -903,25 +918,25 @@ function sortList() {
 		return text;
 	}
 	function loadFile(code) {
-		//var ifr = document.getElementById("iframeResult");
+		//var ifr = $Id("iframeResult");
 		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		//var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
 		var text = frameHTML();
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		//ifrw.location.assign(dir + "Test.html");
 		//ifrw.location.replace(dir + "Test.html");
-		var name = document.getElementById("filename").value;
+		var name = $Id("filename").value;
 		frameWindow().location.href = dir + name;
-		document.getElementById("textareaCode").value = text;
+		$Id("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
 	}
 	function saveFile(code) {
-			/*document.getElementById('preSave').style.display='none';
+			/*$Id('preSave').style.display='none';
 			if (code.length>20000) {
-					document.getElementById('errorSave').style.display='block';    
+					$Id('errorSave').style.display='block';    
 					return;
 			}
-			document.getElementById('postSave').style.display='block';    
+			$Id('postSave').style.display='block';    
 			var paramObj = {};
 			paramObj.code = code;
 			var paramB = JSON.stringify(paramObj);
@@ -934,27 +949,27 @@ function sortList() {
 			if(httpB.readyState == 4 && httpB.status == 200) {
 					if(httpB.responseText.substr(0,2) == "OK" ) {
 						var getId = httpB.responseText.substr(2);
-						document.getElementById("shareLink").href = "/code/tryit.asp?filename=" + getId;
-						document.getElementById("shareLinkText").innerHTML = "https://www.w3schools.com/code/tryit.asp?filename=" + getId;
-						document.getElementById('saveLoader').style.display = "none";
-						document.getElementById("saveModalSaved").style.display  = "block";
+						$Id("shareLink").href = "/code/tryit.asp?filename=" + getId;
+						$Id("shareLinkText").innerHTML = "https://www.w3schools.com/code/tryit.asp?filename=" + getId;
+						$Id('saveLoader').style.display = "none";
+						$Id("saveModalSaved").style.display  = "block";
 					}
 			}
 			}
 			httpB.send(paramB);*/
 
-		var ifr = document.getElementById("iframeResult");
+		var ifr = $Id("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
-		var name = document.getElementById("filename").value;
+		var name = $Id("filename").value;
 		name = name.slice(name.lastIndexOf("/") + 1);
 		saveAs(blob, name);
 
 	}
 	function viewFile(code) {
-		var ifr = document.getElementById("iframeResult");
+		var ifr = $Id("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		var source = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
 		//source = window.editor.getDoc().getValue("\n");
@@ -969,33 +984,33 @@ function sortList() {
 		sourceWindow.document.close(); //close the document for writing, not the window
 	}
 	function hideAndResetModal() {
-			document.getElementById("saveModal").style.display = "none";
-			document.getElementById('preSave').style.display = "block";
-			document.getElementById('errorSave').style.display = "none";    
-			document.getElementById('postSave').style.display = "none";
-			document.getElementById("saveModalSaved").style.display = "none";
-			document.getElementById('saveDisclaimer').style.display= "none";
-			document.getElementById('saveLoader').style.display = "block";
+			$Id("saveModal").style.display = "none";
+			$Id('preSave').style.display = "block";
+			$Id('errorSave').style.display = "none";    
+			$Id('postSave').style.display = "none";
+			$Id("saveModalSaved").style.display = "none";
+			$Id('saveDisclaimer').style.display= "none";
+			$Id('saveLoader').style.display = "block";
 	}
 
 	var addr = document.location.href;
 	function displayError() {
-		document.getElementById("err_url").value = addr;
-		document.getElementById("err_form").style.display = "block";
-		document.getElementById("err_email").focus();
+		$Id("err_url").value = addr;
+		$Id("err_form").style.display = "block";
+		$Id("err_email").focus();
 		hideSent();
 	}
 	function hideError() {
-		document.getElementById("err_form").style.display = "none";
+		$Id("err_form").style.display = "none";
 	}
 	function hideSent() {
-		document.getElementById("err_sent").style.display = "none";
+		$Id("err_sent").style.display = "none";
 	}
 	function sendErr() {
 		var xmlhttp;
-		var err_url = document.getElementById("err_url").value;
-		var err_email = document.getElementById("err_email").value;
-		var err_desc = document.getElementById("err_desc").value;
+		var err_url = $Id("err_url").value;
+		var err_email = $Id("err_email").value;
+		var err_desc = $Id("err_desc").value;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
 		} else {// code for IE6, IE5
@@ -1004,14 +1019,14 @@ function sortList() {
 		xmlhttp.open("POST", "/err_sup.asp", true);
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xmlhttp.send("err_url=" + err_url + "&err_email=" + err_email + "&err_desc=" + escape(err_desc));
-		document.getElementById("err_desc").value = "";
+		$Id("err_desc").value = "";
 		hideError();
-		document.getElementById("err_sent").style.display = "block";
+		$Id("err_sent").style.display = "block";
 	}
 	function openMenu() {
-			var x = document.getElementById("navbarDropMenu");
-			var y = document.getElementById("menuOverlay");
-			var z = document.getElementById("menuButton");
+			var x = $Id("navbarDropMenu");
+			var y = $Id("menuOverlay");
+			var z = $Id("menuButton");
 			if (z.className.indexOf("w3-text-gray") == -1) {
 					z.className += " w3-text-gray";
 			} else { 
@@ -1036,16 +1051,16 @@ function sortList() {
 	}
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
-			if (event.target == document.getElementById("saveModal")) {
+			if (event.target == $Id("saveModal")) {
 					hideAndResetModal();
 			}
-			if (event.target == document.getElementById("driveSaveModal")) {
+			if (event.target == $Id("driveSaveModal")) {
 					resetDriveSaveModal();
 			}
-			if (event.target == document.getElementById("driveLoadModal")) {
+			if (event.target == $Id("driveLoadModal")) {
 					resetDriveLoadModal();
 			}
-			if (event.target == document.getElementById("menuOverlay")) {
+			if (event.target == $Id("menuOverlay")) {
 					openMenu();
 			}
 			
@@ -1069,7 +1084,7 @@ function sortList() {
 	//var e = new KeyboardEvent("keydown", {bubbles : true, cancelable : true, key : "U", char : "U", shiftKey : true, ctrlKey: true, charCode: 85, keyCode: 85});
 	var e = new KeyboardEvent("keydown", {target : window, bubbles : true, cancelable : true, key : "u", char : "u", ctrlKey: true, charCode: 117, keyCode: 117});
 	console.log(e);
-	document.getElementById("topnav").dispatchEvent(e);
+	$Id("topnav").dispatchEvent(e);
 	}
 	</script>
 	
