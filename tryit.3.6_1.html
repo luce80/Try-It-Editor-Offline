@@ -117,7 +117,7 @@
 		body {
 			color:#000000;
 			margin:0px;
-			font-size:100%;
+			font-size:80%;
 		}
 		a.w3schoolslink {
 			padding:0 !important;
@@ -132,12 +132,12 @@
 		}
 		.w3-dropdown-content {width:350px}
 		.trytopnav {
-			height:45px;
-			overflow:hidden;
-			min-width:380px;
 			position:absolute;
-			width:100%;
 			top:5px;
+			/*height:45px;*/
+			min-width:380px;
+			width:100%;
+			overflow:hidden;
 			padding-left:10px;
 			padding-right:5px;  
 		}
@@ -399,8 +399,8 @@
 
 <div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto" id="topnav">
 	<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
-	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
-	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
+	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:22px;color:#999999;margin-top:2px"></a>
+	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:22px;color:#999999;margin-top:2px"></a>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFile('test')">Load</button>
 	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Download</button>
@@ -571,6 +571,11 @@ function sortList() {
 			ifrw.document.body.contentEditable = true;
 		}
 	}
+	function reEdited() {
+		var text = frameHTML();
+		document.getElementById("textareaCode").value = text;
+		window.editor.getDoc().setValue(text);
+	}
 	var currentStack=true;
 	var  htextareaheight=50, vtextareawidth=50;
 
@@ -678,6 +683,12 @@ function sortList() {
 			window.editor.refresh();
 		}
 	}
+	function keypressed(e) {
+		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {submitTryit(1)};
+	}
+	function keypressedinframe(e) {
+		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {reEdited()};
+	}
 	if (window.addEventListener) {
 		document.getElementById("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
 		document.getElementById("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
@@ -687,8 +698,10 @@ function sortList() {
 		window.addEventListener("touchend", dragend);
 		window.addEventListener("load", fixDragBtn);
 		window.addEventListener("load", showFrameSize);
-		document.getElementById("textareacontainer").addEventListener("keyup", function(e) {if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {submitTryit(1)};});
+		document.getElementById("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
 	}
+	document.getElementById("iframeResult").contentWindow.addEventListener("keyup", keypressedinframe);
+
 	function click_savebtn() {
 		if (window.editor) {
 			window.editor.save();
@@ -879,16 +892,26 @@ function sortList() {
 	function resetDriveLoadModal() {
 			document.getElementById('driveLoadModal').style.display='none'
 	}
-
-	function loadFile(code) {
+	function frameWindow(){
 		var ifr = document.getElementById("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		return ifrw;
+	}
+	function frameHTML() {
+		var ifrw = frameWindow();
+		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		return text;
+	}
+	function loadFile(code) {
+		//var ifr = document.getElementById("iframeResult");
+		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		//var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		var text = frameHTML();
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		//ifrw.location.assign(dir + "Test.html");
 		//ifrw.location.replace(dir + "Test.html");
 		var name = document.getElementById("filename").value;
-		ifrw.location.href = dir + name;
-		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		frameWindow().location.href = dir + name;
 		document.getElementById("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
 	}
@@ -926,6 +949,7 @@ function sortList() {
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		var name = document.getElementById("filename").value;
+		name = name.slice(name.lastIndexOf("/") + 1);
 		saveAs(blob, name);
 
 	}
