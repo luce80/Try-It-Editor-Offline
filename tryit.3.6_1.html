@@ -402,7 +402,7 @@
 	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
 	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFile('test')">Load</button>
-	<input title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
+	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Download</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="viewFile();">View source</button>
 	<a href="view-source:" target="_top" title="View source" class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green">View source</a>
@@ -886,7 +886,8 @@ function sortList() {
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		//ifrw.location.assign(dir + "Test.html");
 		//ifrw.location.replace(dir + "Test.html");
-		ifrw.location.href = dir + "Test.html";
+		var name = document.getElementById("filename").value;
+		ifrw.location.href = dir + name;
 		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
 		document.getElementById("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
@@ -924,7 +925,8 @@ function sortList() {
 		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
-		saveAs(blob, "Test.html");
+		var name = document.getElementById("filename").value;
+		saveAs(blob, name);
 
 	}
 	function viewFile(code) {
