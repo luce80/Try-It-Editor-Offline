@@ -73,9 +73,10 @@
 						(xbeforeResize < (728) && afterResize >= (728)) || (xbeforeResize >= (728) && afterResize < (728)) ||
 						(xbeforeResize < (468) && afterResize >= (468)) ||(xbeforeResize >= (468) && afterResize < (468))) {
 						xbeforeResize = afterResize;
-						googletag.cmd.push(function() {
-								googletag.pubads().refresh([gptAdSlots[0]]);
-						});
+						if (typeof googletag != "undefined") {
+							console.log(googletag);
+							googletag.cmd.push(function() {	googletag.pubads().refresh([gptAdSlots[0]]);});
+						}
 				}
 				if (window.screen.availWidth <= 768) {
 					restack(window.innerHeight > window.innerWidth);
@@ -131,7 +132,7 @@
 		}
 		.w3-dropdown-content {width:350px}
 		.trytopnav {
-			height:40px;
+			height:45px;
 			overflow:hidden;
 			min-width:380px;
 			position:absolute;
@@ -139,6 +140,9 @@
 			top:5px;
 			padding-left:10px;
 			padding-right:5px;  
+		}
+		.w3-bar-item {
+			margin: 2px;
 		}
 		.CodeMirror.cm-s-default {
 			line-height:normal;
@@ -177,7 +181,7 @@
 			width:100%;
 			overflow:auto;
 			position:absolute;
-			top:45px;
+			top:48px;
 			bottom:0;
 			height:auto;
 		}
@@ -256,7 +260,6 @@
 			margin-top:5px;
 			height:90px;
 		}
-			
 		#saveLoader {
 			margin:20px;
 		}
@@ -399,7 +402,7 @@
 	<a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item topnav-icons fa fa-menu" style="font-size:28px;color:#999999;margin-top:-2px"></a>
 	<a href="javascript:void(0);" onclick="restack(currentStack)" title="Change Orientation" class="w3-button w3-bar-item fa fa-rotate" style="font-size:28px;color:#999999;margin-top:-2px"></a>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFile('test')">Load</button>
-	<input title="View source" class="w3-bar-item"></input>
+	<input title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveFile('test')">Download</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="viewFile();">View source</button>
 	<a href="view-source:" target="_top" title="View source" class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green">View source</a>
