@@ -16,7 +16,8 @@
 	<script src="js/codemirror/mode/xml/xml.js"></script>
 	<script src="js/codemirror/mode/javascript/javascript.js"></script>
 	<script src="js/codemirror/mode/css/css.js"></script>
-	<script src="js/codemirror/mode/htmlmixed/htmlmixed.js"></script>	<!--script>
+	<script src="js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+	<!--script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -424,7 +425,7 @@
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
-	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="border: 1px solid green; padding: 8px 4px 6px 4px"></input>
+	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="saveFile('test')" title="Download HTML"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewFile();" title="View source"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
@@ -925,7 +926,7 @@ function sortList() {
 	}
 	function frameHTML() {
 		var ifrw = frameWindow();
-		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
 		return text;
 	}
 	function loadFile(code) {
@@ -934,9 +935,9 @@ function sortList() {
 		//var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
 		var text = frameHTML();
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
-		//ifrw.location.assign(dir + "Test.html");
-		//ifrw.location.replace(dir + "Test.html");
 		var name = $Id("filename").value;
+		//console.log(frameWindow().location.assign( name));
+		//ifrw.location.replace(dir + "Test.html");
 		frameWindow().location.href = dir + name;
 		$Id("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
@@ -969,9 +970,7 @@ function sortList() {
 			}
 			httpB.send(paramB);*/
 
-		var ifr = $Id("iframeResult");
-		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-		var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
+		var text = frameHTML();
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		var name = $Id("filename").value;
