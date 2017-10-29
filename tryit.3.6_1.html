@@ -78,6 +78,8 @@
 		}
 		var xbeforeResize = window.innerWidth;
 
+		//window.onbeforeunload = function(e) { if (e) {e.returnValue = "You have unsaved changes."}; return "Are you sure?"; }
+
 		function browserResize() {
 				var afterResize = window.innerWidth;
 				if ((xbeforeResize < (970) && afterResize >= (970)) || (xbeforeResize >= (970) && afterResize < (970)) ||
@@ -425,9 +427,9 @@
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
-	<input id="filename" value="/test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding: 8px 4px 6px 4px"></input>
+	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="saveFile('test')" title="Download HTML"></button>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewFile();" title="View source"></button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
 	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
@@ -560,6 +562,10 @@ function sortList() {
 			window.editor.save();
 		}
 		var text = $Id("textareaCode").value;
+		if (window.editor) {
+			var text = window.editor.getDoc().getValue("\n");
+		}
+		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
 		var ifr = $Id("iframeResult");
 		if (loadSave == true ) {
 			ifr.setAttribute("src", "/code/opentext.htm");
@@ -710,6 +716,10 @@ function sortList() {
 	}
 	function keypressedinframe(e) {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {reEdited()};
+		setTimeout(reEdited,100);
+	}
+	function setFocusIframe() {
+		frameWindow().focus();
 	}
 	if (window.addEventListener) {
 		$Id("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
@@ -722,7 +732,8 @@ function sortList() {
 		window.addEventListener("load", showFrameSize);
 		$Id("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
 	}
-	$Id("iframeResult").contentWindow.addEventListener("keyup", keypressedinframe);
+	frameWindow().addEventListener("keyup", keypressedinframe);
+	//$Id("iframeResult").contentWindow.addEventListener("mousedown", function(e) {setTimeout(setFocusIframe, 100);return false});
 
 	function click_savebtn() {
 		if (window.editor) {
@@ -753,7 +764,8 @@ function sortList() {
 			autoCloseTags: true,
 			autoCloseBrackets: true
 		});
-	//  window.editor.on("change", function () {window.editor.save();});
+		//window.editor.on("change", function () {window.editor.save();});
+		//window.editor.on("change", function () {submitTryit(1)}); better avoid this due to "conflict" with contentEditable
 	}
 	colorcoding();
 
@@ -926,7 +938,10 @@ function sortList() {
 	}
 	function frameHTML() {
 		var ifrw = frameWindow();
-		var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
+		console.log(ifrw.document.head.contentType);
+		//var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
+		var text = "<!DOCTYPE html>\n<html>\n" + ifrw.document.documentElement.innerHTML.replace(/^\n+|\n+$/g,'').trim() + "\n</html>";
+		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
 		return text;
 	}
 	function loadFile(code) {
@@ -938,9 +953,11 @@ function sortList() {
 		var name = $Id("filename").value;
 		//console.log(frameWindow().location.assign( name));
 		//ifrw.location.replace(dir + "Test.html");
+		//console.log(dir + name);
 		frameWindow().location.href = dir + name;
-		$Id("textareaCode").value = text;
-		window.editor.getDoc().setValue(text);
+		setTimeout(reEdited,500);
+		//$Id("textareaCode").value = text;
+		//window.editor.getDoc().setValue(text);
 	}
 	function saveFile(code) {
 			/*$Id('preSave').style.display='none';
@@ -978,10 +995,11 @@ function sortList() {
 		saveAs(blob, name);
 
 	}
-	function viewFile(code) {
-		var ifr = $Id("iframeResult");
-		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-		var source = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
+	function viewSource(code) {
+		//var ifr = $Id("iframeResult");
+		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		//var source = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
+		var source = frameHTML();
 		//source = window.editor.getDoc().getValue("\n");
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 	    //now we need to escape the html special chars, javascript has escape
@@ -1096,6 +1114,15 @@ function sortList() {
 	console.log(e);
 	$Id("topnav").dispatchEvent(e);
 	}
+	/* alert before leaving page
+	window.addEventListener("beforeunload", function (e) {
+		var confirmationMessage = 'It looks like you have been editing something. '
+								+ 'If you leave before saving, your changes will be lost.';
+
+		(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+		return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+	});
+	*/
 	</script>
 	
 	<!--input type="button" onclick="KeySimulation();" value=" Key Simulation " />
