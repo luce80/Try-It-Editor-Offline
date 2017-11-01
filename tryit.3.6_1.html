@@ -17,56 +17,7 @@
 	<script src="js/codemirror/mode/javascript/javascript.js"></script>
 	<script src="js/codemirror/mode/css/css.js"></script>
 	<script src="js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-	<!--script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-3855518-1', 'auto');
-		ga('require', 'displayfeatures');
-		ga('send', 'pageview');
-	</script>
-	<script>
-		var googletag = googletag || {};
-		googletag.cmd = googletag.cmd || [];
-		(function() {
-		var gads = document.createElement('script');
-		gads.async = true;
-		gads.type = 'text/javascript';
-		var useSSL = 'https:' == document.location.protocol;
-		gads.src = (useSSL ? 'https:' : 'http:') + 
-		'//www.googletagservices.com/tag/js/gpt.js';
-		var node = document.getElementsByTagName('script')[0];
-		node.parentNode.insertBefore(gads, node);
-		})();
-	</script>
-	<script type='text/javascript'>
-		// GPT slots
-		var gptAdSlots = [];
-		googletag.cmd.push(function() {
-			var leaderMapping = googletag.sizeMapping().
-			// Mobile ad
-			addSize([0, 0], [320, 50]). 
-			// Vertical Tablet ad
-			addSize([468, 0], [468, 60]). 
-			// Horizontal Tablet
-			addSize([728, 0], [728, 90]).
-			// Desktop and bigger ad
-			addSize([970, 0], [[728, 90], [970, 90]]).build();
-			// addSize([970, 0], [728, 90]).build();
-			gptAdSlots[0] = googletag.defineSlot('/16833175/TryitLeaderboard', [[728, 90], [970, 90]], 'div-gpt-ad-1428407818244-0').
-			// gptAdSlots[0] = googletag.defineSlot('/16833175/TryitLeaderboard', [728, 90], 'div-gpt-ad-1428407818244-0').
-			defineSizeMapping(leaderMapping).addService(googletag.pubads());
-			googletag.pubads().setTargeting("content","try" + (function () {
-				var folder = location.pathname;
-				folder = folder.replace("/", "");
-				folder = folder.substr(0, folder.indexOf("/"));
-				return folder;
-			})()
-			);
-			googletag.enableServices();
-		});
-	</script-->
+
 	<script>
 		function $Id(id) {return document.getElementById(id)};
 		function $Tag(tag) {return document.getElementsByTagName(tag)};
@@ -131,14 +82,6 @@
 			color:#000000;
 			margin:0px;
 			font-size:80%;
-		}
-		a.w3schoolslink {
-			padding:0 !important;
-			display:inline !important;
-		}
-		a.w3schoolslink:hover,a.w3schoolslink:active {
-			text-decoration:underline !important;
-			background-color:transparent !important;
 		}
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
@@ -267,12 +210,6 @@
 			min-height:200px;
 			margin-left:0;
 		}
-		#tryitLeaderboard {
-			overflow:hidden;
-			text-align:center;
-			margin-top:5px;
-			height:90px;
-		}
 		#saveLoader {
 			margin:20px;
 		}
@@ -362,7 +299,7 @@
 				<p>If you click the save button, your code will be saved, and you get an URL you can share with others.</p>
 				<div style="height:34px">
 					<p>
-						<button class="w3-btn w3-green" style="margin-right:15px" title="Save" onclick="saveFile($Id('textareaCode').value);">Save</button>
+						<button class="w3-btn w3-green" style="margin-right:15px" title="Save" onclick="downloadFile($Id('textareaCode').value);">Save</button>
 						<button class="w3-btn w3-red" title="Cancel" style="margin-right:15px" onclick="hideAndResetModal();">Cancel</button>
 					</p>
 				</div>
@@ -422,13 +359,11 @@
 </div>
 
 <div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto" id="topnav">
-	<!--a id="tryhome" href="https://www.w3schools.com" target="_blank" title="w3schools.com Home" class="w3-button w3-bar-item topnav-icons fa fa-home" style="font-size:28px;color:#999999;margin-top:-2px"></a-->
-	<!--a href="javascript:void(0);" onclick="openMenu()" id="menuButton" title="Open Menu"class="w3-dropdown-click w3-button w3-bar-item " style="font-size:18px;color:#999999;margin-top:2px"></a-->
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
 	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding: 8px 4px 6px 4px"></input>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="saveFile('test')" title="Download HTML"></button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
 
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="reload HTML">Reload</button>
@@ -761,9 +696,9 @@ function sortList() {
 			htmlMode: true,
 			lineWrapping: false,
 			smartIndent: true,
-			//indentUnit: 1,
-			//tabSize: 4,
-			//indentWithTabs: true,
+			indentUnit: 4,
+			tabSize: 4,
+			indentWithTabs: true,
 			addModeClass: true,
 			autoCloseTags: true,
 			autoCloseBrackets: true
@@ -935,6 +870,7 @@ function sortList() {
 	function resetDriveLoadModal() {
 			$Id('driveLoadModal').style.display='none'
 	}
+
 	function frameWindow(){
 		var ifr = $Id("iframeResult");
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
@@ -942,62 +878,28 @@ function sortList() {
 	}
 	function frameHTML() {
 		var ifrw = frameWindow();
-		console.log(ifrw.document.head.contentType);
+		//FIXME: set body contentEditable to false
 		//var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
 		var text = "<!DOCTYPE html>\n<html>\n" + ifrw.document.documentElement.innerHTML.replace(/^\n+|\n+$/g,'').trim() + "\n</html>";
 		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
 		return text;
 	}
 	function loadFile(code) {
-		//var ifr = $Id("iframeResult");
-		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-		//var text = "<!DOCTYPE html>\n<html>\n<head>" + ifrw.document.head.innerHTML + "</head>\n<body>" + ifrw.document.body.innerHTML + "</body>\n</html>";
-		var text = frameHTML();
 		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		var name = $Id("filename").value;
-		//console.log(frameWindow().location.assign( name));
-		//ifrw.location.replace(dir + "Test.html");
-		//console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
+		//var text = frameHTML();
 		//$Id("textareaCode").value = text;
 		//window.editor.getDoc().setValue(text);
 	}
-	function saveFile(code) {
-			/*$Id('preSave').style.display='none';
-			if (code.length>20000) {
-					$Id('errorSave').style.display='block';    
-					return;
-			}
-			$Id('postSave').style.display='block';    
-			var paramObj = {};
-			paramObj.code = code;
-			var paramB = JSON.stringify(paramObj);
-			var httpB = new XMLHttpRequest();
-			httpB.open("POST", globalURL, true);
-
-			httpB.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-			httpB.onreadystatechange = function() {
-			if(httpB.readyState == 4 && httpB.status == 200) {
-					if(httpB.responseText.substr(0,2) == "OK" ) {
-						var getId = httpB.responseText.substr(2);
-						$Id("shareLink").href = "/code/tryit.asp?filename=" + getId;
-						$Id("shareLinkText").innerHTML = "https://www.w3schools.com/code/tryit.asp?filename=" + getId;
-						$Id('saveLoader').style.display = "none";
-						$Id("saveModalSaved").style.display  = "block";
-					}
-			}
-			}
-			httpB.send(paramB);*/
-
+	function downloadFile(code) {
 		var text = frameHTML();
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		var name = $Id("filename").value;
 		name = name.slice(name.lastIndexOf("/") + 1);
 		saveAs(blob, name);
-
 	}
     function loadFromLocalStorage() {
 
@@ -1010,8 +912,6 @@ function sortList() {
         }
 
     }
-
-
     function saveToLocalStorage() {
         var sHTML = frameHTML(); //Get content
 
@@ -1019,17 +919,13 @@ function sortList() {
         alert('Saved Successfully');
     }
 	function viewSource(code) {
-		//var ifr = $Id("iframeResult");
-		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-		//var source = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML + "</head>\n<body>\n" + ifrw.document.body.innerHTML + "\n</body>\n</html>";
 		var source = frameHTML();
-		//source = window.editor.getDoc().getValue("\n");
-		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
 	    //now we need to escape the html special chars, javascript has escape
     	//but this does not do what we want
-    	source = source.replace(/</g, "&lt;");//.replace(/>/g, "&gt;");
-    	//now we add <pre> tags to preserve whitespace
-    	source = "<pre>"+source+"</pre>";
+    	//source = source.replace(/</g, "&lt;");
+		//now we add <pre> tags to preserve whitespace
+		//and place it inside a visible <script> section
+    	source = "<pre><script style='display: inline;'>\n" + source + "\n<" + "/script></pre>";
 		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
@@ -1116,27 +1012,10 @@ function sortList() {
 			}
 			
 	}
-	//window.onkeyup = function(event) {console.log(event.key);}
 
 </script>
 <script src="js/FileSaver.js"></script>
 <script>
-	function KeySimulation()
-	{
-	var e = document.createEvent("KeyboardEvent");
-	if (e.initKeyboardEvent) {  // Chrome, IE
-		e.initKeyboardEvent("keyup", true, true, document.defaultView, "Enter", 0, "", false, "");
-	} else { // FireFox
-		//e.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, 13, 0);
-		e.initKeyEvent("keydown", true, true, window, true, false, true, false, "U".charCodeAt(0), 85);
-	}
-	console.log(e);
-	document.body.dispatchEvent(e);
-	//var e = new KeyboardEvent("keydown", {bubbles : true, cancelable : true, key : "U", char : "U", shiftKey : true, ctrlKey: true, charCode: 85, keyCode: 85});
-	var e = new KeyboardEvent("keydown", {target : window, bubbles : true, cancelable : true, key : "u", char : "u", ctrlKey: true, charCode: 117, keyCode: 117});
-	console.log(e);
-	$Id("topnav").dispatchEvent(e);
-	}
 	/* alert before leaving page
 	window.addEventListener("beforeunload", function (e) {
 		var confirmationMessage = 'It looks like you have been editing something. '
@@ -1146,12 +1025,9 @@ function sortList() {
 		return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
 	});
 	*/
-	</script>
+</script>
 	
-	<!--input type="button" onclick="KeySimulation();" value=" Key Simulation " />
-	<textarea id="MyTextArea" rows="15" cols="30"></textarea-->
 <!--script src="https://apis.google.com/js/client.js?onload=checkAuth"></script-->
-
 
 </body>
 </html>
