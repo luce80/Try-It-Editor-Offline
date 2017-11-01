@@ -86,6 +86,9 @@
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
+		.w3-bar-item {
+			margin: 2px;
+		}
 		.w3-dropdown-content {width:350px}
 		.trytopnav {
 			position:absolute;
@@ -96,9 +99,6 @@
 			overflow:hidden;
 			padding-left:10px;
 			padding-right:5px;  
-		}
-		.w3-bar-item {
-			margin: 2px;
 		}
 		.CodeMirror.cm-s-default {
 			line-height:normal;
@@ -367,7 +367,7 @@
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
 
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="reload HTML">Reload</button>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Download HTML">Store</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Download HTML">Restore</button>
 
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
@@ -709,11 +709,11 @@ function sortList() {
 	colorcoding();
 
 	function w3_getStyleValue(elmnt,style) {
-			if (window.getComputedStyle) {
-					return window.getComputedStyle(elmnt,null).getPropertyValue(style);
-			} else {
-					return elmnt.currentStyle[style];
-			}
+		if (window.getComputedStyle) {
+			return window.getComputedStyle(elmnt,null).getPropertyValue(style);
+		} else {
+			return elmnt.currentStyle[style];
+		}
 	}
 	//SAVE AND OPEN SCRIPT
 	var oauthToken;
@@ -922,10 +922,9 @@ function sortList() {
 		var source = frameHTML();
 	    //now we need to escape the html special chars, javascript has escape
     	//but this does not do what we want
-    	//source = source.replace(/</g, "&lt;");
-		//now we add <pre> tags to preserve whitespace
-		//and place it inside a visible <script> section
-    	source = "<pre><script style='display: inline;'>\n" + source + "\n<" + "/script></pre>";
+    	source = source.replace(/</g, "&lt;");//.replace(/>/g, "&gt;");
+    	//now we add <pre> tags to preserve whitespace
+    	source = "<pre>" + source + "</pre>";
 		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
