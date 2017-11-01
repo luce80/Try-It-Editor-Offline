@@ -430,6 +430,10 @@
 	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding: 8px 4px 6px 4px"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="saveFile('test')" title="Download HTML"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
+
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="reload HTML">Reload</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Download HTML">Store</button>
+
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
 	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
@@ -995,6 +999,25 @@ function sortList() {
 		saveAs(blob, name);
 
 	}
+    function loadFromLocalStorage() {
+
+        //Load saved Content
+		var text = localStorage.getItem('content');
+        if (text != null) {
+			$Id("textareaCode").value = text;
+			window.editor.getDoc().setValue(text);
+			submitTryit();
+        }
+
+    }
+
+
+    function saveToLocalStorage() {
+        var sHTML = frameHTML(); //Get content
+
+        localStorage.setItem('content', sHTML);
+        alert('Saved Successfully');
+    }
 	function viewSource(code) {
 		//var ifr = $Id("iframeResult");
 		//var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
