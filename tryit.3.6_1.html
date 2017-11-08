@@ -170,7 +170,7 @@
 		#iframewrapper {
 			width:100%;
 			height:100%;
-			-webkit-overflow-scrolling: touch;
+			/*-webkit-overflow-scrolling: touch;*/
 			background-color: #ffffff;
 			box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 		}
@@ -366,8 +366,8 @@
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
 
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="reload HTML">Reload</button>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Download HTML">Restore</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button>
 
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
@@ -885,13 +885,15 @@ function sortList() {
 		return text;
 	}
 	function loadFile(code) {
-		var dir = location.href.slice(0,location.href.lastIndexOf("/") + 1);
+		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		var name = $Id("filename").value;
+		console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
 		//var text = frameHTML();
 		//$Id("textareaCode").value = text;
 		//window.editor.getDoc().setValue(text);
+		setTimeout(submitTryit,1000);
 	}
 	function downloadFile(code) {
 		var text = frameHTML();
