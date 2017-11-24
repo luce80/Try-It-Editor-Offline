@@ -915,10 +915,14 @@ function sortList() {
 
     }
     function saveToLocalStorage() {
-        var sHTML = frameHTML(); //Get content
+		if (typeof(Storage) !== "undefined") {
+			var sHTML = frameHTML(); //Get content
 
-        localStorage.setItem('content', sHTML);
-        alert('Saved Successfully');
+			localStorage.setItem('content', sHTML);
+			alert('Saved Successfully');
+		} else {
+			alert("No localStorage available")
+		}
     }
 	function viewSource(code) {
 		var source = frameHTML();
