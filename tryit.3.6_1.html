@@ -81,7 +81,6 @@
 		body {
 			color:#000000;
 			margin:0px;
-			font-size:80%;
 		}
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
@@ -369,10 +368,9 @@
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button>
 
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)">Run &raquo;</button>
-	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()">&laquo; Get</button>
-	<span class="w3-right w3-hide-medium w3-hide-small" style="padding:8px 8px 8px 8px;display:block"></span>
-	<span class="w3-right w3-bar-item w3-hide-small" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button>
+	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
+	<span class="w3-right w3-bar-item" style="padding:4px 0;display:block;float:right;"><span id="framesize"></span></span>
 </div>
 
 <div id="shield"></div>
