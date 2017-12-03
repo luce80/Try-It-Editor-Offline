@@ -1,8 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
-<head><title>Sort a HTML List Alphabetically</title>
+<head><title>Test move vert</title>
 </head><body contenteditable="true">
-  <div id="box" style="background:yellow; position:absolute; height:100%; width: 100%;top:0; bottom:0; left: 0; right: 0">
+  <div id="box" style="background:yellow background-attachment:fixed; 
+					   margin: 30px;
+					   position:absolute; height:calc(100% - 60px); width: 100%;
+					   top:0; bottom:0; left: 0; right: 0">
 <div id="left" style="background:red; height:calc(30% - 10px); "> 1 </div>
 <div id="cent" style="background: gray; height: 20px; cursor: move;"> 2 </div>
 <div id="rigt" style="background:green; height:calc(70% - 10px); "> 3 </div>
@@ -25,23 +28,11 @@
 var box = document.getElementById("box");
 var l = document.getElementById("left");
 var c = document.getElementById("cent");
-	//c.style.height = "60px";
 var r = document.getElementById("rigt");
-	//r.style.height = "calc(40.65% - 30px)";
-	//console.log(r);
-	/*console.log(l.clientHeight);
-	console.log(c.clientHeight);
-	console.log(r.clientHeight);
-	console.log(box.clientHeight);*/
+
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  /*if (document.getElementById(elmnt.id + "header")) {*/
-    /* if present, the header is where you move the DIV from:*/
-    /*document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {*/
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
-  //}
+  elmnt.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
     e = e || window.event;
@@ -54,20 +45,20 @@ function dragElement(elmnt) {
   }
 
   function elementDrag(e) {
-	var perc;
+	var perc, pos;
     e = e || window.event;
     // calculate the new cursor position:
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element's new position:
-    //elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    //elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-	perc = (l.clientHeight + 10 - pos2) * 100 / box.clientHeight;
-	//console.log(perc);
-	l.style.height = "calc(" + (perc) + "% - 10px)";
-	//console.log(l.style.height);
+    // set the element's new size:
+	pos = pos2;
+	var ax = "clientHeight";
+	perc = (l[ax] + (c[ax] / 2) - pos) * 100 / box[ax];
+	ax = "height";
+	l.style[ax] = "calc(" + (perc) + "% - 10px)";
+	r.style[ax] = "calc(" + (100 - perc) + "% - 10px)";
   }
 
   function closeDragElement() {

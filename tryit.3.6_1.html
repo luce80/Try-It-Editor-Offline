@@ -85,19 +85,23 @@
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
-		.w3-bar-item {
+		.w3-bar .w3-bar-item {
 			margin: 2px;
+			height: calc(100% - (2px + 2px));
+			padding: 2px 12px;
 		}
-		.w3-dropdown-content {width:350px}
+		.w3-dropdown-content {
+			width:350px
+		}
 		.trytopnav {
-			position:absolute;
-			top:5px;
-			/*height:45px;*/
+			/*position:absolute;*/
+			/*top:5px;*/
+			height:44px;
 			min-width:380px;
 			width:100%;
 			overflow:hidden;
 			padding-left:10px;
-			padding-right:5px;  
+			padding-right:10px;  
 		}
 		.CodeMirror.cm-s-default {
 			line-height:normal;
@@ -136,7 +140,7 @@
 			width:100%;
 			overflow:auto;
 			position:absolute;
-			top:calc(5px + 38px);
+			top:44px;
 			bottom:0;
 			height:auto;
 		}
@@ -231,8 +235,7 @@
 
 		[class*="tit-icon-"] {
 			display:inline-block;
-			font:normal normal normal 14px/1 tit-fontello;
-			font-size:18px;
+			font:normal normal normal 18px/1 tit-fontello;
 			text-rendering:auto;
 			-webkit-font-smoothing:antialiased;
 			-moz-osx-font-smoothing:grayscale;
@@ -357,11 +360,11 @@
 	</div>
 </div>
 
-<div class="trytopnav w3-bar w3-light-grey" style="border-top:1px solid #f1f1f1;overflow:auto" id="topnav">
+<div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
-	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; height: 34px; border: 1px solid green; padding: 8px 4px 6px 4px;"></input>
+	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding-left: 4px;"></input>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
 
@@ -370,7 +373,7 @@
 
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
-	<span class="w3-right w3-bar-item" style="padding:4px 0;display:block;float:right;"><span id="framesize"></span></span>
+	<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
 </div>
 
 <div id="shield"></div>
