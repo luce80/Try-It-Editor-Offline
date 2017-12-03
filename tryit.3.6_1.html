@@ -103,6 +103,42 @@
 			padding-left:10px;
 			padding-right:10px;  
 		}
+		.dropbtn {
+			background-color: hsl(130, 100%, 30%);/*#4CAF50;*/
+			color: white;
+			padding: 10px;
+		}
+		.dropbtn:hover, .dropbtn:focus {
+			background-color: hsl(130, 100%, 20%);/*#3e8e41;*/
+			cursor: pointer;
+		}
+		.dropdown {
+			position: static;
+			display: inline-block;
+			/*float: left;*/
+			/*top: 0px;
+			transform:translate(0%,0%)*/
+			z-index: 2;
+		}
+		.dropdown-content {
+			display: none;
+			position: relative;
+			background-color: hsl(0, 0%, 95%);
+			/*margin: 5px;*/
+			padding: 1px;
+			z-index: 1000000000;
+		}
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+		.dropdown a:hover {
+			background-color: hsl(0, 0%, 90%)
+		}
+
+		.show {display:block;}
 		.CodeMirror.cm-s-default {
 			line-height:normal;
 			padding: 4px;
@@ -362,6 +398,14 @@
 
 <div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
+	<div class="dropdown" >
+		<button class="dropbtn w3-hover-text-green tit-icon-help" title="Show info" onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' >Dropdown</button>
+		<div class="dropdown-content w3-dropdown-content ">
+		  <p>Home</p>
+		  <a href="#about">About on a long line</a>
+		  <a href="#contact">Contact</a>
+		</div>
+	</div>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
 	<input id="filename" value="./test/Test.html" title="File name" class="w3-bar-item" style="width: 20%; border: 1px solid green; padding-left: 4px;"></input>
