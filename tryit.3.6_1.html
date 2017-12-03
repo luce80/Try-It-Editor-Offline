@@ -82,6 +82,59 @@
 			color:#000000;
 			margin:0px;
 		}
+		ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    background: green;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    /*display: block;*/
+}
+.show {display: block;}
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
@@ -396,7 +449,7 @@
 	</div>
 </div>
 
-<div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
+<!--div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<div class="dropdown" >
 		<button class="dropbtn w3-hover-text-green tit-icon-help" title="Show info" onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' >Dropdown</button>
@@ -418,8 +471,22 @@
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button>
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
 	<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
-</div>
-
+</div-->
+<ul class=" w3-bar w3-light-grey">
+	<li><a class="tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></a></li>
+	<li><a href="#news">News</a></li>
+	<li><input ></input></li>
+	<li class="dropdown">
+	  <button onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' class="dropbtn">Dropdown</button>
+	  <div class="dropdown-content">
+		<a href="#">Link 1</a>
+		<a href="#">Link 2</a>
+		<a href="#">Link 3</a>
+	  </div>
+	</li>
+	<li style="float:right"><a href="#news">Right</a></li>
+  </ul>
+  
 <div id="shield"></div>
 <a href="javascript:void(0)" id="dragbar"></a>
 
