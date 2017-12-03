@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head><title>Sort a HTML List Alphabetically</title>
+</head><body contenteditable="true">
+  <div id="box" style="background:yellow; position:absolute; height:100%; width: 100%;top:0; bottom:0; left: 0; right: 0">
+<div id="left" style="background:red; height:calc(30% - 10px); "> 1 </div>
+<div id="cent" style="background: gray; height: 20px; cursor: move;"> 2 </div>
+<div id="rigt" style="background:green; height:calc(70% - 10px); "> 3 </div>
+</div>
+<p>Click the button to sort the list alphabetically:</p>
+<button onclick="sortList()">Sort</button>
+
+<ul id="id01">
+	<li>Oslo</li>
+	<li>Stockholm</li>
+	<li>Helsinki</li>
+	<li>Berlin</li>
+	<li>Rome</li>
+	<li>Madrid</li>
+</ul>
+
+<script>
+	dragElement(document.getElementById(("cent")));
+
+var box = document.getElementById("box");
+var l = document.getElementById("left");
+var c = document.getElementById("cent");
+	//c.style.height = "60px";
+var r = document.getElementById("rigt");
+	//r.style.height = "calc(40.65% - 30px)";
+	//console.log(r);
+	/*console.log(l.clientHeight);
+	console.log(c.clientHeight);
+	console.log(r.clientHeight);
+	console.log(box.clientHeight);*/
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  /*if (document.getElementById(elmnt.id + "header")) {*/
+    /* if present, the header is where you move the DIV from:*/
+    /*document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {*/
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  //}
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+	var perc;
+    e = e || window.event;
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    //elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    //elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+	perc = (l.clientHeight + 10 - pos2) * 100 / box.clientHeight;
+	//console.log(perc);
+	l.style.height = "calc(" + (perc) + "% - 10px)";
+	//console.log(l.style.height);
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+function sortList() {
+	var list, i, switching, b, shouldSwitch;
+	list = document.getElementById("id01");
+	switching = true;
+	/*Make a loop that will continue until
+	no switching has been done:*/
+	while (switching) {
+		//start by saying: no switching is done:
+		switching = false;
+		b = list.getElementsByTagName("LI");
+		//Loop through all list-items:
+		for (i = 0; i < (b.length - 1); i++) {
+			//start by saying there should be no switching:
+			shouldSwitch = false;
+			/*check if the next item should
+			switch place with the current item:*/
+			if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+				/*if next item is alphabetically
+				lower than current item, mark as a switch
+				and break the loop:*/
+				shouldSwitch= true;
+				break;
+			}
+		}
+		if (shouldSwitch) {
+			/*If a switch has been marked, make the switch
+			and mark the switch as done:*/
+			b[i].parentNode.insertBefore(b[i + 1], b[i]);
+			switching = true;
+		}
+	}
+}
+</script>
+
+			
+
+</body>
+</html>
