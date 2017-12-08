@@ -85,29 +85,30 @@
 		ul {
     list-style-type: none;
     margin: 0;
-    padding: 10px;
+    padding: 0px 10px;
     overflow: hidden;
     background-color: #333;
 }
 
 li {
     float: left;
+    margin: 2px;
 }
 
 li a, .dropbtn {
     display: inline-block;
-    background: green;
+    /*background: green;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    border: none;
+    border: none;*/
 }
-
+/*
 li a:hover, .dropdown:hover .dropbtn {
     background-color: red;
 }
-
+*/
 li.dropdown {
     display: inline-block;
 }
@@ -117,19 +118,22 @@ li.dropdown {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
+	width: 40%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content p {
     color: black;
-    padding: 12px 16px;
+    padding: 2px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
 
 .dropdown:hover .dropdown-content {
     /*display: block;*/
@@ -175,11 +179,11 @@ li.dropdown {
 		}
 		.dropdown-content {
 			display: none;
-			position: relative;
+			position: fixed;
 			background-color: hsl(0, 0%, 95%);
 			/*margin: 5px;*/
 			padding: 1px;
-			z-index: 1000000000;
+			z-index: 10;
 		}
 		.dropdown-content a {
 			color: black;
@@ -205,6 +209,13 @@ li.dropdown {
 				width: 60px;
 				height: 60px;
 				animation: spin 2s linear infinite;
+		}
+		#filename {
+			border: 1px solid green;
+			background: white;
+			width: 300px;
+			padding: 7px 4px;
+			text-align: left;
 		}
 		#dragbar{
 			position:absolute;
@@ -323,14 +334,14 @@ li.dropdown {
 		}
 
 		[class*="tit-icon-"] {
-			display:inline-block;
-			font:normal normal normal 18px/1 tit-fontello;
+			/*display:inline-block;
+			font:normal normal normal 18px/1 tit-fontello;*/
 			text-rendering:auto;
 			-webkit-font-smoothing:antialiased;
 			-moz-osx-font-smoothing:grayscale;
-			transform:translate(0,0);
-			margin-top:2px;
-			padding-left: 12px;
+			/*transform:translate(0,0);
+			margin-top:2px;*/
+			padding: 8px 10px;
 		}
 		/*@font-face {
 			font-family: 'FontAwesome';
@@ -472,10 +483,46 @@ li.dropdown {
 	<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
 	<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;float:right;"><span id="framesize"></span></span>
 </div-->
-<ul class=" w3-bar w3-light-grey">
-	<li><a class="tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></a></li>
-	<li><a href="#news">News</a></li>
-	<li><input ></input></li>
+<ul class="w3-light-grey">
+	<li class="dropdown">
+		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
+			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
+		>
+		</button>
+		<div class="dropdown-content">
+			<p>Notes:</p>
+			<p>To see updates in the editor after making modifications inside the preview frame you must reload the page once.</p>
+			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
+		</div>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
+	</li>
+	<li>
+		<input id="filename" class="w3-button" value="./test/Test.html" title="File name" class="w3-bar-item" ></input>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
+	</li>
+	<li>
+		<button class="w3-button w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button>	
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button>
+	</li>
+	<li>
+		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
+	</li>
+
 	<li class="dropdown">
 	  <button onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' class="dropbtn">Dropdown</button>
 	  <div class="dropdown-content">
@@ -484,7 +531,9 @@ li.dropdown {
 		<a href="#">Link 3</a>
 	  </div>
 	</li>
-	<li style="float:right"><a href="#news">Right</a></li>
+	<li style="float:right">
+		<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;"><span id="framesize"></span></span>
+	</li>
   </ul>
   
 <div id="shield"></div>
@@ -511,10 +560,13 @@ li.dropdown {
 		<div id="textareawrapper">
 			<textarea autocomplete="on" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
 <html>
+<head>
 <title>Sort a HTML List Alphabetically</title>
+</head>
 <body>
 
-<p>Click the button to sort the list alphabetically:</p>
+<h1>This is a heading</h1>
+<p>This is a paragraph. Click the button to sort the list alphabetically:</p>
 <button onclick="sortList()">Sort</button>
 
 <ul id="id01">
@@ -990,10 +1042,12 @@ function sortList() {
 	}
 	function frameHTML() {
 		var ifrw = frameWindow();
+		ifrw.document.body.removeAttribute("contentEditable");// = false;
 		//FIXME: set body contentEditable to false
 		//var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
 		var text = "<!DOCTYPE html>\n<html>\n" + ifrw.document.documentElement.innerHTML.replace(/^\n+|\n+$/g,'').trim() + "\n</html>";
 		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
+		ifrw.document.body.contentEditable = true;
 		return text;
 	}
 	function loadFile(code) {
