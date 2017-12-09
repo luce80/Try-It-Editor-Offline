@@ -82,6 +82,7 @@
 			color:#000000;
 			margin:0px;
 		}
+
 		ul {
 			list-style-type: none;
 			margin: 0;
@@ -89,12 +90,10 @@
 			overflow: hidden;
 			background-color: #333;
 		}
-
 		li {
 			float: left;
 			margin: 2px;
 		}
-
 		li a, .dropbtn {
 			display: inline-block;
 			/*background: green;
@@ -104,11 +103,6 @@
 			text-decoration: none;
 			border: none;*/
 		}
-		/*
-		li a:hover, .dropdown:hover .dropbtn {
-			background-color: red;
-		}
-		*/
 		li.dropdown {
 			display: inline-block;
 		}
@@ -122,7 +116,6 @@
 			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 			z-index: 1;
 		}
-
 		.dropdown-content p {
 			color: black;
 			padding: 2px 16px;
@@ -130,15 +123,10 @@
 			display: block;
 			text-align: left;
 		}
-
 		.dropdown-content a:hover {
 			background-color: #f1f1f1
 		}
-
-		.dropdown:hover .dropdown-content {
-			/*display: block;*/
-		}
-		.show {display: block;}
+		
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
@@ -195,7 +183,6 @@
 			background-color: hsl(0, 0%, 90%)
 		}
 
-		.show {display:block;}
 		.CodeMirror.cm-s-default {
 			line-height:normal;
 			padding: 4px;
@@ -374,8 +361,10 @@
 				0% { transform: rotate(0deg); }
 				100% { transform: rotate(360deg); }
 		}
-		/*#iframewrapper {    }*/
-
+		/* this MUST be the last rule*/
+		.show {display: block;}
+		
+		
 	</style>
 	<!--[if lt IE 8]>
 	<style>
