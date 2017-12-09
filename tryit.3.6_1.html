@@ -890,12 +890,16 @@ function sortList() {
 
 	//Check if current user has authorized this application
 	function checkAuth() {
-			gapi.auth.authorize(
-			{
-					'client_id': CLIENT_ID,
-					'scope': SCOPES.join(' '),
-					'immediate': true
-			}, handleAuthResult);
+		gapi.auth.authorize(
+		{
+			'client_id': CLIENT_ID,
+			'scope': SCOPES.join(' '),
+			'immediate': true
+		}, handleAuthResult);
+
+		//test line
+		//second
+		//third
 	}
 
 	//Handle response from authorization server
