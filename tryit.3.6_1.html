@@ -115,6 +115,35 @@
 			padding: 2px 16px;
 		}
 		
+		.switch {
+			position: relative;
+			display: inline-block;
+			margin: 0 4px;
+		}
+		.switch input {
+			display:none;
+		}
+		.slider {
+			box-sizing:border-box;
+			position: static;
+			width: 50px;
+			height: 40px;
+			margin: 0px 4px;
+			background: white;
+			border: solid lightgrey;
+			border-radius: 20%;
+			border-width: 4px 20px 4px 4px;
+			display: inline-block;
+			vertical-align: -14px;
+			cursor: pointer;
+			transition: border 0.3s;
+		} 
+		/*.slider:hover { 		} */
+		input:checked + .slider { 
+			border-color: hsl(122, 39.4%, 49.2%);/*w3-green*/
+			border-width: 4px 4px 4px 20px;
+		} 
+
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
@@ -343,7 +372,7 @@
 		<div class="dropdown-content">
 			<p>Notes:</p>
 			<p>By default the preview frame's content is editable, but beware the input elements are NOT editable.</p>
-			<p>To see updates in the editor after making modifications inside the preview frame you must reload the page once.</p>
+			<p>If you do not see updates in the editor after making modifications inside the preview frame try reloading the page.</p>
 			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
@@ -359,7 +388,10 @@
 
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button></li>
-
+	<li><label class="switch">
+		<input id="checkedit" checked="checked" type="checkbox" onchange="frameEditable()">
+		Editable preview:<span class="slider"></span><span id="switchflag">ON</span>
+	  </label></li>
 	<li style="float:right"><span class="w3-right w3-bar-item" style="padding:8px 0;display:block;"><span id="framesize"></span></span></li>
   </ul>
   
@@ -470,6 +502,7 @@ function sortList() {
 </div>
 
 <script>
+	var framecontentedit = true;
 	submitTryit()
 
 	function submitTryit(n) {
@@ -511,7 +544,7 @@ function sortList() {
 				ifrw.document.body.contentEditable = true;
 				ifrw.document.body.contentEditable = false;
 			}
-			ifrw.document.body.contentEditable = true;
+			ifrw.document.body.contentEditable = framecontentedit;
 		}
 	}
 	function reEdited() {
@@ -684,11 +717,9 @@ function sortList() {
 	function frameHTML() {
 		var ifrw = frameWindow();
 		ifrw.document.body.removeAttribute("contentEditable");// = false;
-		//FIXME: set body contentEditable to false
-		//var text = "<!DOCTYPE html>\n<html>\n<head>\n" + ifrw.document.head.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</head>\n<body>\n" + ifrw.document.body.innerHTML.replace(/^\n+|\n+$/g,'') + "\n</body>\n</html>";
 		var text = "<!DOCTYPE html>\n<html>\n" + ifrw.document.documentElement.innerHTML.replace(/^\n+|\n+$/g,'').trim() + "\n</html>";
 		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
-		ifrw.document.body.contentEditable = true;
+		ifrw.document.body.contentEditable = framecontentedit;
 		return text;
 	}
 	function loadFile(code) {
@@ -740,6 +771,17 @@ function sortList() {
 		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
+	}
+	function frameEditable() {
+		$Id("checkedit").value = ~ $Id("checkedit").value;
+		if ($Id("checkedit").value == 0) {
+			framecontentedit = true;
+			$Id("switchflag").innerHTML = "ON";
+		} else {
+			framecontentedit = false;
+			$Id("switchflag").innerHTML = "OFF";
+		}
+		submitTryit()
 	}
 
 </script>

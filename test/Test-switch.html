@@ -5,7 +5,7 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 45px;
+
   height: 30px;
 margin: 0 4px;
 }
@@ -68,6 +68,7 @@ background: white;
 border: solid lightgrey;
 border-width: 4px 20px 4px 4px;
 display: inline-block;
+	vertical-align: middle;
   cursor: pointer;
 transition: border 0.5s;
 } 
@@ -92,10 +93,10 @@ input:checked + .slid:hover {
 <input name="vehicle" value="Car" type="checkbox">I have a car 
 </form>
  <input id="ac" onchange="alert('changed')" type="checkbox">abc
-<h2><label class="switch">
+<label class="switch">
   <input checked="checked" type="checkbox">
-  <span class="slid"></span>
-</label>Toggle Switch</h2>
+  Editable preview:<span class="slid"></span>ON
+</label><h2>Toggle Switch</h2>
 <label class="switch">
   <input type="checkbox">
   <span class="slid"></span>
