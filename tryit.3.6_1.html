@@ -88,7 +88,6 @@
 			margin: 0;
 			padding: 0px 10px;
 			overflow: hidden;
-			background-color: #333;
 		}
 		li {
 			float: left;
@@ -105,21 +104,15 @@
 			display: none;
 			position: absolute;
 			top: 44px;
-			background-color: #f9f9f9;
 			min-width: 160px;
 			width: 40%;
 			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-			z-index: 1;
+			background-color: hsl(0, 0%, 95%);
+			z-index: 10;
 		}
 		.dropdown-content p {
 			color: black;
 			padding: 2px 16px;
-			text-decoration: none;
-			display: block;
-			text-align: left;
-		}
-		.dropdown-content a:hover {
-			background-color: #f1f1f1
 		}
 		
 		.w3-bar .w3-bar-item:hover {
@@ -150,24 +143,12 @@
 			background-color: hsl(130, 100%, 20%);/*#3e8e41;*/
 			cursor: pointer;
 		}
+		
 		.dropdown {
 			/*position: static; for li*/
 			/*display: inline-block; for li*/
 			display: inline;
 			z-index: 2;
-		}
-		.dropdown-content {
-			display: none;
-			position: fixed;
-			background-color: hsl(0, 0%, 95%);
-			padding: 1px;
-			z-index: 10;
-		}
-		.dropdown-content a {
-			color: black;
-			padding: 12px 16px;
-			text-decoration: none;
-			display: block;
 		}
 		.dropdown a:hover {
 			background-color: hsl(0, 0%, 90%)
@@ -220,6 +201,7 @@
 			top:44px;
 			bottom:0;
 			height:auto;
+			/*height:calc(100vh - 44px); instead of position etc.*/
 		}
 		#textareacontainer, #iframecontainer {
 			float:left;
@@ -479,21 +461,7 @@
 <a href="javascript:void(0)" id="dragbar"></a>
 
 <div id="container">
-<div id="navbarDropMenu" class="w3-dropdown-content w3-bar-block w3-border" style="z-index:5">
-	<span onclick="openMenu()" class="w3-button w3-display-topright w3-transparent" style="font-weight:bold;">&times;</span>
-	<div class="w3-bar-block">
-		<a class="w3-bar-item w3-button" href='javascript:void(0);' title="Change Orientaton" onclick="openMenu();restack(currentStack)"><i class="fa fa-rotate" style="font-size:26px;margin-left:-4px;margin-right:8px"></i><span style="position:relative;top:-4px;left:2px;">Change Orientation</span></a>
-		<a class="w3-bar-item w3-button" href="javascript:void(0);" title="Save" onclick="openMenu();click_savebtn()"><i class="fa fa-save" style="font-size:26px;margin-right:10px;"></i><span style="position:relative;top:-4px;left:2px;">Save Code</span></a>
-		<a class="w3-bar-item w3-button" href='javascript:void(0);' id="saveGDriveBtn" title="Save to Google Drive" onclick="openMenu();click_google_savebtn()"><img src="./images/driveicon_32.png" alt="" title="Save to Google Drive" style="margin-right:10px;width:24px;"><span style="position:relative;left:1px;">Save to Google Drive</span></a>
-		<a class="w3-bar-item w3-button" href='javascript:void(0);' id="loadGDriveBtn" title="Load from Google Drive" onclick="openMenu();click_google_loadbtn()"><img src="./images/driveicon_32.png" alt="" title="Load from Google Drive" style="margin-right:10px;width:24px;"><span style="position:relative;left:1px;">Load from Google Drive</span></a>
-	</div>
-	<footer class="w3-container w3-small w3-light-gray">
-	<p><a style="display:inline;padding:0;" href="/about/about_privacy.asp" target="_blank" onclick="openMenu();" class="w3-hover-none w3-hover-text-green">Privacy policy</a> and 
-	<a style="display:inline;padding:0;" href="/about/about_copyright.asp" target="_blank" onclick="openMenu();" class="w3-hover-none w3-hover-text-green">Copyright 1999-2017</a></p>
-	</footer>
-</div>
-<div id="menuOverlay" class="w3-overlay w3-transparent" style="cursor:pointer;z-index:4">
-</div>
+
 <div id="textareacontainer">
 	<div id="textarea">
 		<div id="textareawrapper">
@@ -866,22 +834,6 @@ function sortList() {
 		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
-	}
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-			if (event.target == $Id("saveModal")) {
-					hideAndResetModal();
-			}
-			if (event.target == $Id("driveSaveModal")) {
-					resetDriveSaveModal();
-			}
-			if (event.target == $Id("driveLoadModal")) {
-					resetDriveLoadModal();
-			}
-			if (event.target == $Id("menuOverlay")) {
-					openMenu();
-			}
-			
 	}
 
 </script>
