@@ -22,52 +22,52 @@
 		function $Id(id) {return document.getElementById(id)};
 		function $Tag(tag) {return document.getElementsByTagName(tag)};
 
-		if (window.addEventListener) {              
-				window.addEventListener("resize", browserResize);
-		} else if (window.attachEvent) {                 
-				window.attachEvent("onresize", browserResize);
+		if (window.addEventListener) {
+			window.addEventListener("resize", browserResize);
+		} else if (window.attachEvent) {
+			window.attachEvent("onresize", browserResize);
 		}
 		var xbeforeResize = window.innerWidth;
 
 		//window.onbeforeunload = function(e) { if (e) {e.returnValue = "You have unsaved changes."}; return "Are you sure?"; }
 
 		function browserResize() {
-				var afterResize = window.innerWidth;
-				if ((xbeforeResize < (970) && afterResize >= (970)) || (xbeforeResize >= (970) && afterResize < (970)) ||
-						(xbeforeResize < (728) && afterResize >= (728)) || (xbeforeResize >= (728) && afterResize < (728)) ||
-						(xbeforeResize < (468) && afterResize >= (468)) ||(xbeforeResize >= (468) && afterResize < (468))) {
-						xbeforeResize = afterResize;
-						if (typeof googletag != "undefined") {
-							console.log(googletag);
-							googletag.cmd.push(function() {	googletag.pubads().refresh([gptAdSlots[0]]);});
-						}
-				}
-				if (window.screen.availWidth <= 768) {
-					restack(window.innerHeight > window.innerWidth);
-				}
-				fixDragBtn();
-				showFrameSize();    
+			var afterResize = window.innerWidth;
+			if ((xbeforeResize < (970) && afterResize >= (970)) || (xbeforeResize >= (970) && afterResize < (970)) ||
+					(xbeforeResize < (728) && afterResize >= (728)) || (xbeforeResize >= (728) && afterResize < (728)) ||
+					(xbeforeResize < (468) && afterResize >= (468)) ||(xbeforeResize >= (468) && afterResize < (468))) {
+					xbeforeResize = afterResize;
+					if (typeof googletag != "undefined") {
+						console.log(googletag);
+						googletag.cmd.push(function() {	googletag.pubads().refresh([gptAdSlots[0]]);});
+					}
+			}
+			if (window.screen.availWidth <= 768) {
+				restack(window.innerHeight > window.innerWidth);
+			}
+			fixDragBtn();
+			showFrameSize();    
 		}
 		var fileID = "";
 		var loadSave = false;
 		function getSavedFile() {
-				loadSave = true;
-				var htmlCode;
-				var paramObj = {};
-				paramObj.fileid = "";
-				fileID = paramObj.fileid;
-				var paramA = JSON.stringify(paramObj);
-				var httpA = new XMLHttpRequest();
-				httpA.open("POST", globalURL, true);
-				httpA.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				httpA.onreadystatechange = function() {
-						if(httpA.readyState == 4 && httpA.status == 200) {
-								$Id("textareaCode").value = httpA.responseText;
-								window.editor.getDoc().setValue(httpA.responseText);
-								loadSave = false;
-						}
+			loadSave = true;
+			var htmlCode;
+			var paramObj = {};
+			paramObj.fileid = "";
+			fileID = paramObj.fileid;
+			var paramA = JSON.stringify(paramObj);
+			var httpA = new XMLHttpRequest();
+			httpA.open("POST", globalURL, true);
+			httpA.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			httpA.onreadystatechange = function() {
+				if(httpA.readyState == 4 && httpA.status == 200) {
+					$Id("textareaCode").value = httpA.responseText;
+					window.editor.getDoc().setValue(httpA.responseText);
+					loadSave = false;
 				}
-				httpA.send(paramA);   
+			}
+			httpA.send(paramA);   
 		}
 
 	</script>
@@ -83,62 +83,62 @@
 			margin:0px;
 		}
 		ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0px 10px;
-    overflow: hidden;
-    background-color: #333;
-}
+			list-style-type: none;
+			margin: 0;
+			padding: 0px 10px;
+			overflow: hidden;
+			background-color: #333;
+		}
 
-li {
-    float: left;
-    margin: 2px;
-}
+		li {
+			float: left;
+			margin: 2px;
+		}
 
-li a, .dropbtn {
-    display: inline-block;
-    /*background: green;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    border: none;*/
-}
-/*
-li a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
-}
-*/
-li.dropdown {
-    display: inline-block;
-}
+		li a, .dropbtn {
+			display: inline-block;
+			/*background: green;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			border: none;*/
+		}
+		/*
+		li a:hover, .dropdown:hover .dropbtn {
+			background-color: red;
+		}
+		*/
+		li.dropdown {
+			display: inline-block;
+		}
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-	width: 40%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			width: 40%;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
 
-.dropdown-content p {
-    color: black;
-    padding: 2px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
+		.dropdown-content p {
+			color: black;
+			padding: 2px 16px;
+			text-decoration: none;
+			display: block;
+			text-align: left;
+		}
 
-.dropdown-content a:hover {
-	background-color: #f1f1f1
-}
+		.dropdown-content a:hover {
+			background-color: #f1f1f1
+		}
 
-.dropdown:hover .dropdown-content {
-    /*display: block;*/
-}
-.show {display: block;}
+		.dropdown:hover .dropdown-content {
+			/*display: block;*/
+		}
+		.show {display: block;}
 		.w3-bar .w3-bar-item:hover {
 			color:#757575 !important;
 		}
@@ -491,6 +491,7 @@ li.dropdown {
 		</button>
 		<div class="dropdown-content">
 			<p>Notes:</p>
+			<p>By default the preview frame's content is editable, but beware the input elements are NOT editable.</p>
 			<p>To see updates in the editor after making modifications inside the preview frame you must reload the page once.</p>
 			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
@@ -617,7 +618,6 @@ function sortList() {
 </body>
 </html>
 
-
 			</textarea>
 			<form id="codeForm" autocomplete="off" style="margin:0px;display:none;">
 				<input type="hidden" name="code" id="code" />
@@ -713,23 +713,23 @@ function sortList() {
 
 	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || stack == " horizontal") {restack(true);}
 	function restack(horizontal) {
-			stack = "";
-			if (horizontal) {
-					stack = " horizontal";
-					$Id("textareacontainer").style.height = htextareaheight + "%";
-					$Id("textareacontainer").style.width = "100%";
-					$Id("iframecontainer").style.height = (100 - htextareaheight) + "%";
-					$Id("iframecontainer").style.width = "100%";
-					currentStack=false;
-			} else {
-					$Id("textareacontainer").style.height = "100%";
-					$Id("textareacontainer").style.width = vtextareawidth + "%";
-					$Id("iframecontainer").style.height = "100%";
-					$Id("iframecontainer").style.width = (100 - vtextareawidth) + "%";
-					currentStack=true;        
-			}
-			fixDragBtn();
-			showFrameSize();
+		stack = "";
+		if (horizontal) {
+			stack = " horizontal";
+			$Id("textareacontainer").style.height = htextareaheight + "%";
+			$Id("textareacontainer").style.width = "100%";
+			$Id("iframecontainer").style.height = (100 - htextareaheight) + "%";
+			$Id("iframecontainer").style.width = "100%";
+			currentStack=false;
+		} else {
+			$Id("textareacontainer").style.height = "100%";
+			$Id("textareacontainer").style.width = vtextareawidth + "%";
+			$Id("iframecontainer").style.height = "100%";
+			$Id("iframecontainer").style.width = (100 - vtextareawidth) + "%";
+			currentStack=true;        
+		}
+		fixDragBtn();
+		showFrameSize();
 	}
 	function showFrameSize() {
 		var t;
