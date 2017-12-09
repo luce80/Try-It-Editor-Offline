@@ -143,7 +143,7 @@
 			background-color: hsl(130, 100%, 20%);/*#3e8e41;*/
 			cursor: pointer;
 		}
-		
+
 		.dropdown {
 			/*position: static; for li*/
 			/*display: inline-block; for li*/
@@ -333,73 +333,6 @@
 
 
 <script>globalURL = 'https://www.google.com';</script>
-<div id="saveModal" class="w3-modal" style="z-index:4">
-	<div class="w3-modal-content">
-		<div class="w3-display-container">
-			<span onclick="hideAndResetModal()" class="w3-button w3-display-topright" style="font-weight:bold;">&times;</span>
-			<div id="preSave" class="w3-panel">
-				<h2>Save Your Code</h2>
-				<p>If you click the save button, your code will be saved, and you get an URL you can share with others.</p>
-				<div style="height:34px">
-					<p>
-						<button class="w3-btn w3-green" style="margin-right:15px" title="Save" onclick="downloadFile($Id('textareaCode').value);">Save</button>
-						<button class="w3-btn w3-red" title="Cancel" style="margin-right:15px" onclick="hideAndResetModal();">Cancel</button>
-					</p>
-				</div>
-				<p>By clicking the "Save" button you agree to our <a href="javascript:void(0);" class="w3-hover-text-green" onclick="$Id('saveDisclaimer').style.display='block';">terms and conditions</a>.</p>
-				<p><a href="/default.asp" onclick="event.preventDefault();displayError()">Report Error</a></p>
-				<div id="saveDisclaimer" style="display:none;">
-					<p>All code in shared files are supplied by users, and belongs to the poster.</p>
-					<p>All shared files are made public. No license is enforced.</p>
-					<p>Any code can be removed without warning (if it is deemed offensive, damaging or for any other reason).</p>
-					<p>w3schools.com are not responsible or liable for any loss or damage of any kind during the usage of provided code.</p>
-				</div>
-			</div>
-			<div id="errorSave" style="display:none" class="w3-panel">
-				<h2>Your Code Could Not be Saved</h2>
-				<p>The code has too many characters.</p>
-			</div>
-			<div id="postSave" class="w3-panel" style="display:none;">
-				<div id="saveLoader" class="loader"></div>
-				<div id="saveModalSaved" style="display:none">
-					<h2>Your Code has Been Saved</h2>
-					<p>File has been saved to: <a id="shareLink" class="w3-hover-text-green" href="javascript:void(0);" target="_blank"><span id="shareLinkText"></span></a></p>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="driveSaveModal" class="w3-modal" style="z-index:4">
-	<div class="w3-modal-content">
-		<div class="w3-display-container">
-			<span onclick="resetDriveSaveModal()" class="w3-button w3-display-topright" style="font-weight:bold;">&times;</span>
-			<div id="driveText" class="w3-panel w3-large">
-				<h2>Save to Google Drive</h2>
-				<p>If you have a Google account, you can save this code to your Google Drive.</p>
-				<p>Google will ask you to confirm Google Drive access.</p>
-				<p><label class="w3-text-black"><b>Save file as:</b></label>
-					<input class="w3-input w3-border" type="text" id="googleFileName" value="tryhow_js_sort_list">
-					<button class="w3-button w3-light-grey w3-hover-grey w3-hover-text-white w3-margin-top" title="Save file to Google Drive"
-						onclick="handleAuthClick(event,'save')"><img style="margin-right:5px" alt="Save file to Google Drive" title="Save file to Google Drive" src="/images/driveicon.png">Save file</button>
-			</div>
-			<div class="w3-panel w3-large loader" id="driveSavedPanel" style="display:none">
-				<p id="driveSavedText"></p>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="driveLoadModal" class="w3-modal" style="z-index:4">
-	<div class="w3-modal-content">
-		<div class="w3-display-container">
-			<span onclick="resetDriveLoadModal()" class="w3-button w3-display-topright" style="font-weight:bold;">&times;</span>
-			<div class="w3-panel w3-large">
-				<h2>Open from Google Drive</h2>
-				<p>If you have saved a file to Google Drive, you can open it here:</p>
-				<p><button class="w3-button w3-light-grey w3-hover-grey w3-hover-text-white" title="Open file from Google Drive" onclick="handleAuthClick(event,'open')"><img style="margin-right:5px" alt="Open file from Google Drive" title="Open file from Google Drive" src="/images/driveicon.png">Open file</button></p>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!--div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
 	<div class="dropdown" >
