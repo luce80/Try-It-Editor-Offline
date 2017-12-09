@@ -524,15 +524,6 @@
 	<li>
 		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
 	</li>
-
-	<li class="dropdown">
-	  <button onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' class="dropbtn">Dropdown</button>
-	  <div class="dropdown-content">
-		<a href="#">Link 1</a>
-		<a href="#">Link 2</a>
-		<a href="#">Link 3</a>
-	  </div>
-	</li>
 	<li style="float:right">
 		<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;"><span id="framesize"></span></span>
 	</li>
@@ -839,22 +830,6 @@ function sortList() {
 	frameWindow().addEventListener("keyup", keypressedinframe);
 	//$Id("iframeResult").contentWindow.addEventListener("mousedown", function(e) {setTimeout(setFocusIframe, 100);return false});
 
-	function click_savebtn() {
-		if (window.editor) {
-			window.editor.save();
-		}
-		$Id('saveModal').style.display = 'block';
-	}
-	function click_google_savebtn() {
-		if (window.editor) {
-			window.editor.save();
-		}
-		$Id('driveSaveModal').style.display='block'
-	}
-	function click_google_loadbtn() {
-		$Id('driveLoadModal').style.display='block'
-	}
-
 	function colorcoding() {  
 		window.editor = CodeMirror.fromTextArea($Id("textareaCode"), {
 			mode: "text/html",
@@ -879,165 +854,6 @@ function sortList() {
 		} else {
 			return elmnt.currentStyle[style];
 		}
-	}
-	//SAVE AND OPEN SCRIPT
-	var oauthToken;
-	var userAction;
-	var pickerApiLoaded;
-	var developerKey = 'AIzaSyAMZDPXiGcCNWs1UCWG9LS6kkW5YiABfJ0';
-	var CLIENT_ID = '451843133508-ckbr5r6ch1ofqbmh87oll4u6ltinqv2t.apps.googleusercontent.com';
-	var SCOPES = ['https://www.googleapis.com/auth/drive.file'];
-
-	//Check if current user has authorized this application
-	function checkAuth() {
-		gapi.auth.authorize(
-		{
-			'client_id': CLIENT_ID,
-			'scope': SCOPES.join(' '),
-			'immediate': true
-		}, handleAuthResult);
-
-		//test line
-		//second
-		//third
-	}
-
-	//Handle response from authorization server
-	function handleAuthResult(authResult) {
-			if (authResult && !authResult.error) {
-					oauthToken = authResult.access_token;
-					loadApi();
-			}
-	}
-
-	// Initiate auth flow in response to user clicking authorize button
-	function handleAuthClick(event,userClick) {
-			userAction = userClick;
-			gapi.auth.authorize(
-					{client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-					handleAuthResult);
-			return false;
-	}
-
-	// Load API library
-	function loadApi() {
-			gapi.client.load('drive', 'v3');
-			gapi.load('picker', {'callback': onPickerApiLoad});
-	}
-	function onPickerApiLoad() {
-			pickerApiLoaded = true;
-			if (userAction=="save") {
-					userAction="";
-					$Id('driveText').style.display='none';
-					$Id('driveSavedPanel').style.display='block';
-					createFileWithHTMLContent($Id('googleFileName').value,$Id('textareaCode').value)     
-			}
-			if (userAction=="open") {
-					userAction="";
-					createPicker();
-			}
-	}
-
-	// Create and render a Picker object for picking HTML file
-	function createPicker() {
-			if (pickerApiLoaded) {
-					var view = new google.picker.View(google.picker.ViewId.DOCS);
-					view.setMimeTypes("text/html");
-					var picker = new google.picker.PickerBuilder().
-							addView(view).
-							setOAuthToken(oauthToken).
-							setDeveloperKey(developerKey).
-							setCallback(pickerCallback).
-							build();
-					picker.setVisible(true);
-			}
-	}
-	// Put content of file in tryit editor
-	function pickerCallback(data) {
-			var docID = '';
-			if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-					var doc = data[google.picker.Response.DOCUMENTS][0];
-					docID = doc[google.picker.Document.ID];
-					getContentOfFile(docID);
-			}
-	}
-
-	//Get contents
-	function getContentOfFile(theID){
-			gapi.client.request({'path': '/drive/v2/files/'+theID,'method': 'GET',callback: function ( theResponseJS, theResponseTXT ) {
-					var myToken = gapi.auth.getToken();
-					var myXHR   = new XMLHttpRequest();
-					myXHR.open('GET', theResponseJS.downloadUrl, true );
-					myXHR.setRequestHeader('Authorization', 'Bearer ' + myToken.access_token );
-					myXHR.onreadystatechange = function( theProgressEvent ) {
-							if (myXHR.readyState == 4) {
-									if ( myXHR.status == 200 ) {
-											var code = myXHR.response;
-											$Id("textareaCode").value=code;
-											window.editor.getDoc().setValue(code);
-											submitTryit(1);
-											resetDriveLoadModal();
-									}
-							}
-					}
-					myXHR.send();
-					}
-			});
-	}
-
-	var createFileWithHTMLContent = function(name,data,callback) {
-			const boundary = '-------314159265358979323846';
-			const delimiter = "\r\n--" + boundary + "\r\n";
-			const close_delim = "\r\n--" + boundary + "--";
-			const contentType = 'text/html';
-
-			var metadata = {
-					'name': name,
-					'mimeType': contentType
-			};
-
-			var multipartRequestBody =
-					delimiter +
-					'Content-Type: application/json\r\n\r\n' +
-					JSON.stringify(metadata) +
-					delimiter +
-					'Content-Type: ' + contentType + '\r\n\r\n' +
-					data +
-					close_delim;
-
-			var request = gapi.client.request({
-					'path': '/upload/drive/v3/files',
-					'method': 'POST',
-					'params': {'uploadType': 'multipart'},
-					'headers': {
-							'Content-Type': 'multipart/related; boundary="' + boundary + '"'
-					},
-					'body': multipartRequestBody});
-			if (!callback) {
-					callback = function(file) {
-							console.log(file);
-							$Id("driveSavedText").innerHTML = file.name + " saved in Google Drive";
-							$Id("driveSavedPanel").className = "w3-panel w3-large";
-					};
-			}
-			request.execute(callback);
-	}
-
-	if (navigator.userAgent.indexOf("MSIE") > 0 || navigator.userAgent.indexOf("Edge") > 0) {
-			$Id("saveGDriveBtn").style.display = "none";
-			$Id("loadGDriveBtn").style.display = "none";
-	}
-
-
-	function resetDriveSaveModal() {
-			$Id('driveSavedText').innerHTML='';
-			$Id('driveSaveModal').style.display='none'
-			$Id('driveSavedPanel').style.display='none'
-			$Id('driveText').style.display='block'
-			$Id("driveSavedPanel").className = "w3-panel w3-large loader";
-	}
-	function resetDriveLoadModal() {
-			$Id('driveLoadModal').style.display='none'
 	}
 
 	function frameWindow(){
@@ -1075,7 +891,6 @@ function sortList() {
 		saveAs(blob, name);
 	}
     function loadFromLocalStorage() {
-
         //Load saved Content
 		var text = localStorage.getItem('content');
         if (text != null) {
@@ -1105,72 +920,6 @@ function sortList() {
 		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
-	}
-	function hideAndResetModal() {
-			$Id("saveModal").style.display = "none";
-			$Id('preSave').style.display = "block";
-			$Id('errorSave').style.display = "none";    
-			$Id('postSave').style.display = "none";
-			$Id("saveModalSaved").style.display = "none";
-			$Id('saveDisclaimer').style.display= "none";
-			$Id('saveLoader').style.display = "block";
-	}
-
-	var addr = document.location.href;
-	function displayError() {
-		$Id("err_url").value = addr;
-		$Id("err_form").style.display = "block";
-		$Id("err_email").focus();
-		hideSent();
-	}
-	function hideError() {
-		$Id("err_form").style.display = "none";
-	}
-	function hideSent() {
-		$Id("err_sent").style.display = "none";
-	}
-	function sendErr() {
-		var xmlhttp;
-		var err_url = $Id("err_url").value;
-		var err_email = $Id("err_email").value;
-		var err_desc = $Id("err_desc").value;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.open("POST", "/err_sup.asp", true);
-		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send("err_url=" + err_url + "&err_email=" + err_email + "&err_desc=" + escape(err_desc));
-		$Id("err_desc").value = "";
-		hideError();
-		$Id("err_sent").style.display = "block";
-	}
-	function openMenu() {
-			var x = $Id("navbarDropMenu");
-			var y = $Id("menuOverlay");
-			var z = $Id("menuButton");
-			if (z.className.indexOf("w3-text-gray") == -1) {
-					z.className += " w3-text-gray";
-			} else { 
-					z.className = z.className.replace(" w3-text-gray", "");
-			}
-			if (z.className.indexOf("w3-gray") == -1) {
-					z.className += " w3-gray";
-			} else { 
-					z.className = z.className.replace(" w3-gray", "");
-			}
-			if (x.className.indexOf("w3-show") == -1) {
-					x.className += " w3-show";
-			} else { 
-					x.className = x.className.replace(" w3-show", "");
-			}
-			if (y.className.indexOf("w3-show") == -1) {
-					y.className += " w3-show";
-			} else { 
-					y.className = y.className.replace(" w3-show", "");
-			}
-
 	}
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
