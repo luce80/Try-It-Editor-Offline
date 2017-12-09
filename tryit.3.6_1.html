@@ -96,12 +96,6 @@
 		}
 		li a, .dropbtn {
 			display: inline-block;
-			/*background: green;
-			color: white;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-			border: none;*/
 		}
 		li.dropdown {
 			display: inline-block;
@@ -110,10 +104,11 @@
 		.dropdown-content {
 			display: none;
 			position: absolute;
+			top: 44px;
 			background-color: #f9f9f9;
 			min-width: 160px;
 			width: 40%;
-			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
 			z-index: 1;
 		}
 		.dropdown-content p {
@@ -139,8 +134,6 @@
 			width:350px
 		}
 		.trytopnav {
-			/*position:absolute;*/
-			/*top:5px;*/
 			height:44px;
 			min-width:380px;
 			width:100%;
@@ -149,7 +142,7 @@
 			padding-right:10px;  
 		}
 		.dropbtn {
-			background-color: hsl(130, 100%, 30%);/*#4CAF50;*/
+			background-color: hsl(130, 100%, 30%);/*#4CAF50; w3-green*/
 			color: white;
 			padding: 10px;
 		}
@@ -158,18 +151,15 @@
 			cursor: pointer;
 		}
 		.dropdown {
-			position: static;
-			display: inline-block;
-			/*float: left;*/
-			/*top: 0px;
-			transform:translate(0%,0%)*/
+			/*position: static; for li*/
+			/*display: inline-block; for li*/
+			display: inline;
 			z-index: 2;
 		}
 		.dropdown-content {
 			display: none;
 			position: fixed;
 			background-color: hsl(0, 0%, 95%);
-			/*margin: 5px;*/
 			padding: 1px;
 			z-index: 10;
 		}
@@ -198,7 +188,7 @@
 				animation: spin 2s linear infinite;
 		}
 		#filename {
-			border: 1px solid green;
+			border: 1px solid hsl(130, 100%, 30%);
 			background: white;
 			width: 300px;
 			padding: 7px 4px;
@@ -321,13 +311,10 @@
 		}
 
 		[class*="tit-icon-"] {
-			/*display:inline-block;
-			font:normal normal normal 18px/1 tit-fontello;*/
+			/*font:normal normal normal 18px/1 tit-fontello;*/
 			text-rendering:auto;
 			-webkit-font-smoothing:antialiased;
 			-moz-osx-font-smoothing:grayscale;
-			/*transform:translate(0,0);
-			margin-top:2px;*/
 			padding: 8px 10px;
 		}
 		/*@font-face {
@@ -340,23 +327,6 @@
 			font-weight:normal;
 			font-style:normal;
 		}*/
-		.fa {
-			display:inline-block;
-			font:normal normal normal 14px/1 FontAwesome;
-			font-size:inherit;
-			text-rendering:auto;
-			-webkit-font-smoothing:antialiased;
-			-moz-osx-font-smoothing:grayscale;
-			transform:translate(0,0);
-		}
-		.fa-2x {
-			font-size:2em;
-		}
-		.fa-home:before {content: '\f015';} /*\e800'; }*/
-		.fa-save:before {content: '\f0c7';} /*\e804'; }*/
-		.fa-rotate:before {content: '\f021';} /*'\e813'; }*/
-		.fa-menu:before { content: '\f0c9'; }
-
 		@keyframes spin {
 				0% { transform: rotate(0deg); }
 				100% { transform: rotate(360deg); }
@@ -450,13 +420,17 @@
 </div>
 
 <!--div class="trytopnav w3-bar w3-light-grey" style="border-top:2px solid #4CAF50 ;overflow:auto" id="topnav">
-	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-help" title="Show info" ></button>
 	<div class="dropdown" >
-		<button class="dropbtn w3-hover-text-green tit-icon-help" title="Show info" onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")' >Dropdown</button>
-		<div class="dropdown-content w3-dropdown-content ">
-		  <p>Home</p>
-		  <a href="#about">About on a long line</a>
-		  <a href="#contact">Contact</a>
+		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
+			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
+		>
+		</button>
+		<div class="dropdown-content">
+			<p>Notes:</p>
+			<p>By default the preview frame's content is editable, but beware the input elements are NOT editable.</p>
+			<p>To see updates in the editor after making modifications inside the preview frame you must reload the page once.</p>
+			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
+			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</div>
 	<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
@@ -486,36 +460,19 @@
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button>
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button>
-	</li>
-	<li>
-		<input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile('test')" title="File name" ></input>
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button>
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button>
-	</li>
-	<li>
-		<button class="w3-button w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button>	
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button>
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button>
-	</li>
-	<li>
-		<button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button>
-	</li>
-	<li style="float:right">
-		<span class="w3-right w3-bar-item" style="padding:8px 0;display:block;"><span id="framesize"></span></span>
-	</li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button></li>
+	<li><input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile('test')" title="File name" ></input></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button></li>
+
+	<li><button class="w3-button w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button></li>
+
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button></li>
+
+	<li style="float:right"><span class="w3-right w3-bar-item" style="padding:8px 0;display:block;"><span id="framesize"></span></span></li>
   </ul>
   
 <div id="shield"></div>
