@@ -3,7 +3,7 @@
 <html lang="en-US">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=windows-1252">
-	<title>Tryit Editor v3.6 luce80</title>
+	<title>Tryit Editor v3.7 luce80</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/codemirror.css">
@@ -47,27 +47,6 @@
 			}
 			fixDragBtn();
 			showFrameSize();    
-		}
-		var fileID = "";
-		var loadSave = false;
-		function getSavedFile() {
-			loadSave = true;
-			var htmlCode;
-			var paramObj = {};
-			paramObj.fileid = "";
-			fileID = paramObj.fileid;
-			var paramA = JSON.stringify(paramObj);
-			var httpA = new XMLHttpRequest();
-			httpA.open("POST", globalURL, true);
-			httpA.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			httpA.onreadystatechange = function() {
-				if(httpA.readyState == 4 && httpA.status == 200) {
-					$Id("textareaCode").value = httpA.responseText;
-					window.editor.getDoc().setValue(httpA.responseText);
-					loadSave = false;
-				}
-			}
-			httpA.send(paramA);   
 		}
 
 	</script>
@@ -278,14 +257,14 @@
 			min-height:200px;
 			margin-left:0;
 		}
-		@media screen and (max-width: 727px) {
-			.trytopnav {top:70px;}
-			#container {top:108px;}
+		@media screen and (max-width: 870px) {
+			.trytopnav {top:0px;}
+			#container {top:88px;}
 
 		}
-		@media screen and (max-width: 467px) {
-			.trytopnav {top:60px;}
-			#container {top:98px;}
+		@media screen and (max-width: 450px) {
+			.trytopnav {top:0px;}
+			#container {top:158px;}
 		}
 		@media only screen and (max-device-width: 768px) {
 			#iframewrapper {overflow: auto;}
@@ -371,7 +350,7 @@
 		</button>
 		<div class="dropdown-content">
 			<p>Notes:</p>
-			<p>By default the preview frame's content is editable, but beware the input elements are NOT editable.</p>
+			<p>By default the preview frame's content is editable, but beware the input elements in the frame are NOT working.</p>
 			<p>If you do not see updates in the editor after making modifications inside the preview frame try reloading the page.</p>
 			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
@@ -465,7 +444,7 @@ function sortList() {
 			<form id="codeForm" autocomplete="off" style="margin:0px;display:none;">
 				<input type="hidden" name="code" id="code" />
 			</form>
-			</div>
+		</div>
 	</div>
 </div>
 <div id="iframecontainer">
@@ -515,37 +494,20 @@ function sortList() {
 		}
 		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
 		var ifr = $Id("iframeResult");
-		if (loadSave == true ) {
-			ifr.setAttribute("src", "/code/opentext.htm");
-		} else if (fileID != "" && loadSave == false) {
-			var t=text;
-			t=t.replace(/=/gi,"w3equalsign");
-			t=t.replace(/\+/gi,"w3plussign");    
-			var pos=t.search(/script/i)
-			while (pos>0) {
-				t=t.substring(0,pos) + "w3" + t.substr(pos,3) + "w3" + t.substr(pos+3,3) + "tag" + t.substr(pos+6);
-				pos=t.search(/script/i);
-			}
-			$Id("code").value=t;
-			$Id("codeForm").action = "https://tryit.w3schools.com/tryit_view.php?x=" + Math.random();
-			$Id('codeForm').method = "post";
-			$Id('codeForm').acceptCharset = "utf-8";
-			$Id('codeForm').target = "iframeResult";
-			$Id("codeForm").submit();
-		} else {
-			var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
-			ifrw.document.open();
-			ifrw.document.write(text);  
-			ifrw.document.close();
-			//23.02.2016: contentEditable is set to true, to fix text-selection (bug) in firefox.
-			//(and back to false to prevent the content from being editable)
-			//(To reproduce the error: Select text in the result window with, and without, the contentEditable statements below.)  
-			if (ifrw.document.body && !ifrw.document.body.isContentEditable) {
-				ifrw.document.body.contentEditable = true;
-				ifrw.document.body.contentEditable = false;
-			}
-			ifrw.document.body.contentEditable = framecontentedit;
+
+		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+		ifrw.document.open();
+		ifrw.document.write(text);  
+		ifrw.document.close();
+		//23.02.2016: contentEditable is set to true, to fix text-selection (bug) in firefox.
+		//(and back to false to prevent the content from being editable)
+		//(To reproduce the error: Select text in the result window with, and without, the contentEditable statements below.)  
+		if (ifrw.document.body && !ifrw.document.body.isContentEditable) {
+			ifrw.document.body.contentEditable = true;
+			ifrw.document.body.contentEditable = false;
 		}
+		ifrw.document.body.contentEditable = framecontentedit;
+
 	}
 	function reEdited() {
 		var text = frameHTML();
@@ -728,9 +690,6 @@ function sortList() {
 		console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
-		//var text = frameHTML();
-		//$Id("textareaCode").value = text;
-		//window.editor.getDoc().setValue(text);
 		setTimeout(submitTryit,1000);
 	}
 	function downloadFile(code) {
@@ -749,7 +708,6 @@ function sortList() {
 			window.editor.getDoc().setValue(text);
 			submitTryit();
         }
-
     }
     function saveToLocalStorage() {
 		if (typeof(Storage) !== "undefined") {
