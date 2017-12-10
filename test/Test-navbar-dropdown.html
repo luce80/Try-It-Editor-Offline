@@ -18,10 +18,10 @@ li a, .dropbtn {
     display: inline-block;
     background: green;
     color: white;
-    text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     border: none;
+	font: normal normal normal 16px/1.25 "Times New Roman", Times, serif;
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -43,6 +43,7 @@ li.dropdown {
 
 .dropdown-content a {
     color: black;
+	background-color: #f9f9f9;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -51,31 +52,28 @@ li.dropdown {
 
 .dropdown-content a:hover {background-color: #f1f1f1}
 
-.dropdown:hover .dropdown-content {
-    /*display: block;*/
-}
 .show {display: block;}
 </style>
 </head>
-<body contenteditable="true">
+<body>
 
 <ul>
   <li><a href="#home">Home</a></li>
-  <li><a href="#news">News</a></li>
   <li><input></li>
   <li class="dropdown">
-    <button onclick="this.nextElementSibling.classList.toggle(&quot;show&quot;)" onblur="this.nextElementSibling.classList.remove(&quot;show&quot;)" class="dropbtn">Dropdown</button>
+    <button class="dropbtn" onclick="this.nextElementSibling.classList.toggle(&quot;show&quot;)" onblur="this.nextElementSibling.classList.remove(&quot;show&quot;)">Dropdown</button>
     <div class="dropdown-content">
       <a href="#">Link 1</a>
       <a href="#">Link 2</a>
       <a href="#">Link 3</a>
     </div>
   </li>
+  <li><a href="#news">News</a></li>
   <li style="float:right"><a href="#news">Right</a></li>
 </ul>
 <div>
 <h3>Dropdown Menu inside a Navigation Bar</h3>
-<p>Hover over the "Dropdown" link to see the dropdown menu.</p>
+<p>Click on the "Dropdown" link to see the dropdown menu.</p>
 </div>
 
 </body>
