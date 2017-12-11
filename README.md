@@ -16,3 +16,4 @@ Main differences from original **Try It Editor v3.5** :
  - It can show the HTML source in a different tab/window
 
 Due to origin restrisctions of the browsers, you can not save the document wherever you want and load one from wherever you want. What you should do is: download the document to the directory of this editor; load the document from the same directory of this editor, otherwise you will not be able to modify the loaded file.
+When you save to localStorage the filename in the input field is used as the local name, so it is possible to save many pages but the available space in localStorage is limited so better not abuse of it.

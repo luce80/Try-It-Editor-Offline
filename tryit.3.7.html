@@ -625,22 +625,24 @@ function sortList() {
 	function loadFile(code) {
 		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		var name = $Id("filename").value;
-		console.log(dir + name);
+		//console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
 		setTimeout(submitTryit,1000);
+	}
+	function getName() {
+		var name = $Id("filename").value;
+		return name = name.slice(name.lastIndexOf("/") + 1);		
 	}
 	function downloadFile(code) {
 		var text = frameHTML();
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
-		var name = $Id("filename").value;
-		name = name.slice(name.lastIndexOf("/") + 1);
-		saveAs(blob, name);
+		saveAs(blob, getName());
 	}
     function loadFromLocalStorage() {
         //Load saved Content
-		var text = localStorage.getItem('content');
+		var text = localStorage.getItem(getName());
         if (text != null) {
 			$Id("textareaCode").value = text;
 			window.editor.getDoc().setValue(text);
@@ -650,8 +652,7 @@ function sortList() {
     function saveToLocalStorage() {
 		if (typeof(Storage) !== "undefined") {
 			var sHTML = frameHTML(); //Get content
-
-			localStorage.setItem('content', sHTML);
+			localStorage.setItem(getName(), sHTML);
 			alert('Saved Successfully');
 		} else {
 			alert("No localStorage available")
