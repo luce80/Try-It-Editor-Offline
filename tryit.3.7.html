@@ -186,7 +186,6 @@
 		}
 		@media only screen and (max-device-width: 768px) {
 			#container     {min-width: 320px;}
-			.stack         {display: none;}
 		}
 
 		[class*="tit-icon-"] {
@@ -212,7 +211,6 @@
 		#container {height: 500px;}
 		#textarea, #iframe {width: 90%;height: 450px;}
 		#textareaCode, #iframeResult {height: 450px;}
-		.stack {display: none;}
 	</style>
 	<![endif]-->
 </head>
@@ -234,7 +232,7 @@
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack(currentStack)" title="Change Orientation" ></button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack()" title="Change Orientation" ></button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button></li>
 	<li><input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile('test')" title="File name" ></input></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button></li>
@@ -358,26 +356,21 @@ function sortList() {
 		$Id("textareaCode").value = text;
 		window.editor.getDoc().setValue(text);
 	}
-	var currentStack=true;
-
-	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || stack == " horizontal") {restack(true);}
 
 	function showFrameSize() {
-		$Id("framesize").innerHTML = "Result Size: <span>" + r["clientWidth"] + " x " + r["clientHeight"] + "</span>";
+		$Id("framesize").innerHTML = "Result Size: <span>" + $Id("iframecontainer")["clientWidth"] + " x " + $Id("iframecontainer")["clientHeight"] + "</span>";
 	}
 	var dragging = false;
-	var stack;
 
-	var box = $Id("container");
-	var l = $Id("textareacontainer");
-	var c = $Id("dragbar");
-	var r = $Id("iframecontainer");
 	var layout = "horizontal";
 
 	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) ) {restack();}
 
 	var leftwidthperc = 50 ; leftheightperc = 50 ;
 	function restack() {
+		var l = $Id("textareacontainer");
+		var c = $Id("dragbar");
+		var r = $Id("iframecontainer");
 		if (layout == "vertical") {
 			l.style["height"] = c.style["height"] = r.style["height"] = "100%";
 			l.style["width"] = "calc(" + leftwidthperc + "% - 6px)";
@@ -400,8 +393,8 @@ function sortList() {
 
 	function dragBalance(balancer) {
 		if (window.addEventListener) {
-			$Id("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
-			$Id("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
+			balancer.addEventListener("mousedown", function(e) {dragstart(e);});
+			balancer.addEventListener("touchstart", function(e) {dragstart(e);});
 			window.addEventListener("mousemove", function(e) {dragmove(e);});
 			window.addEventListener("touchmove", function(e) {dragmove(e);});
 			window.addEventListener("mouseup", dragend);
@@ -434,18 +427,18 @@ function sortList() {
 					var pos = pos2;
 					var axe1 = "clientHeight";
 					var axe2 = "height";
-					perc = (l[axe1] + (c[axe1] / 2) - pos) * 100 / box[axe1];
+					perc = (balancer.previousElementSibling[axe1] + (balancer[axe1] / 2) - pos) * 100 / balancer.parentElement[axe1];
 					leftheightperc = perc;
 				} else {
 					var pos = pos1;
 					var axe1 = "clientWidth";
 					var axe2 = "width";
-					perc = (l[axe1] + (c[axe1] / 2) - pos) * 100 / box[axe1];
+					perc = (balancer.previousElementSibling[axe1] + (balancer[axe1] / 2) - pos) * 100 / balancer.parentElement[axe1];
 					leftwidthperc = perc;
 				}
 				if (perc > 5 && perc < 95) {
-					l.style[axe2] = "calc(" + (perc) + "% - " + (c[axe1] / 2) + "px)";
-					r.style[axe2] = "calc(" + (100 - perc) + "% - " + (c[axe1] / 2) + "px)";
+					balancer.previousElementSibling.style[axe2] = "calc(" + (perc) + "% - " + (balancer[axe1] / 2) + "px)";
+					balancer.nextElementSibling.style[axe2] = "calc(" + (100 - perc) + "% - " + (balancer[axe1] / 2) + "px)";
 				}
 				showFrameSize();
 			}
