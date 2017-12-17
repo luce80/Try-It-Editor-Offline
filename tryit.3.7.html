@@ -46,6 +46,7 @@
 			box-sizing: border-box;
 		}
 		body {
+			background-color: #f1f1f1;
 			color: #000000;
 			margin: 0px;
 		}
@@ -80,6 +81,7 @@
 		.dropdown-content p {
 			color: black;
 			padding: 2px 16px;
+			font-size: 12px;
 		}
 		
 		.switch {
@@ -133,7 +135,6 @@
 		}
 
 		#container {
-			background: #f1f1f1;
 			margin: 0px 10px;
 			position: absolute;
 			height: calc(100% - 10px - 44px);
@@ -144,10 +145,9 @@
 			float: left;
 			height: 100%;
 			width: calc(50% - 6px);
-			box-shadow: 0px 3px 5px rgb(182, 181, 181);
+			box-shadow: 0px 3px 5px -1px rgb(182, 181, 181);
 		}
 		#dragbar {
-			background: rgba(0,0,0,0);
 			width: 12px;
 			box-shadow: none;
 			cursor: col-resize;
@@ -173,6 +173,7 @@
 		}
 		#iframeResult {
 			background-color: #ffffff;
+			border: none;
 			height: 100%;
 			width: 100%;  
 		}
@@ -217,7 +218,6 @@
 <body>
 
 
-
 <ul class="w3-light-grey">
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
@@ -228,14 +228,17 @@
 			<p>Notes: </p>
 			<p>By default the preview frame's content is editable, but beware the input elements in the frame are NOT working.</p>
 			<p>If you do not see updates in the editor after making modifications inside the preview frame try reloading the page.</p>
-			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file.</p>
+			<p>Because of Cross Origin Restrictions you will be able to edit only files saved in the same directory (or sub-directories) of this file, or
+				those saved in the local Storage.
+			</p>
+			<p>If, after restoring a file from local Storage, the page does not appear in the preview frame try reloading the page.</p>
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack()" title="Change Orientation" ></button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile('test')" title="Load file"></button></li>
-	<li><input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile('test')" title="File name" ></input></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile('test')" title="Download HTML"></button></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile()" title="Load file"></button></li>
+	<li><input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile()" title="File name" ></input></li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile()" title="Download HTML"></button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button></li>
 
 	<li><button class="w3-button w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button></li>
@@ -247,7 +250,7 @@
 		<input id="checkedit" checked="checked" type="checkbox" onchange="frameEditable()">
 		Editable preview: <span class="slider"></span><span id="switchflag">ON</span>
 	  </label></li>
-	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 8px 0;display: block;" id="framesize"></span></li>
+	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
   </ul>
   
 <div id="shield"></div>
@@ -317,7 +320,7 @@ function sortList() {
 	</div>
 	<div id="dragbar">  </div>
 	<div id="iframecontainer">
-		<iframe id="iframeResult" style="border: none;">
+		<iframe id="iframeResult">
 		</iframe>
 	</div>
 </div>
@@ -360,7 +363,6 @@ function sortList() {
 	function showFrameSize() {
 		$Id("framesize").innerHTML = "Result Size: <span>" + $Id("iframecontainer")["clientWidth"] + " x " + $Id("iframecontainer")["clientHeight"] + "</span>";
 	}
-	var dragging = false;
 
 	var layout = "horizontal";
 
@@ -499,7 +501,7 @@ function sortList() {
 		ifrw.document.body.contentEditable = framecontentedit;
 		return text;
 	}
-	function loadFile(code) {
+	function loadFile() {
 		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		var name = $Id("filename").value;
 		//console.log(dir + name);
@@ -511,7 +513,7 @@ function sortList() {
 		var name = $Id("filename").value;
 		return name = name.slice(name.lastIndexOf("/") + 1);		
 	}
-	function downloadFile(code) {
+	function downloadFile() {
 		var text = frameHTML();
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
@@ -535,7 +537,7 @@ function sortList() {
 			alert("No localStorage available")
 		}
     }
-	function viewSource(code) {
+	function viewSource() {
 		var source = frameHTML();
 	    //now we need to escape the html special chars, javascript has escape
     	//but this does not do what we want
