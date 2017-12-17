@@ -27,25 +27,13 @@
 		} else if (window.attachEvent) {
 			window.attachEvent("onresize", browserResize);
 		}
-		var xbeforeResize = window.innerWidth;
 
 		//window.onbeforeunload = function(e) { if (e) {e.returnValue = "You have unsaved changes."}; return "Are you sure?"; }
 
 		function browserResize() {
-			/*var afterResize = window.innerWidth;
-			if ((xbeforeResize < (970) && afterResize >= (970)) || (xbeforeResize >= (970) && afterResize < (970)) ||
-					(xbeforeResize < (728) && afterResize >= (728)) || (xbeforeResize >= (728) && afterResize < (728)) ||
-					(xbeforeResize < (468) && afterResize >= (468)) ||(xbeforeResize >= (468) && afterResize < (468))) {
-					xbeforeResize = afterResize;
-					if (typeof googletag != "undefined") {
-						console.log(googletag);
-						googletag.cmd.push(function() {	googletag.pubads().refresh([gptAdSlots[0]]);});
-					}
-			}*/
 			if (window.screen.availWidth <= 768) {
 				restack(window.innerHeight > window.innerWidth);
 			}
-			//fixDragBtn();
 			showFrameSize();    
 		}
 
@@ -131,18 +119,8 @@
 			height: calc(100% - (2px + 2px));
 			padding: 2px 12px;
 		}
-		.trytopnav {
-			height: 44px;
-			min-width: 380px;
-			width: 100%;
-			overflow: hidden;
-			padding-left: 10px;
-			padding-right: 10px;  
-		}
 
 		.dropdown {
-			/*position: static; for li*/
-			/*display: inline-block; for li*/
 			display: inline;
 			z-index: 2;
 		}
@@ -153,7 +131,8 @@
 			height: 100%;
 			width: 100%;
 		}
-		#box {
+
+		#container {
 			background: #f1f1f1;
 			margin: 0px 10px;
 			position: absolute;
@@ -161,37 +140,24 @@
 			width: calc(100% - 20px);
 			top: 44px; bottom: 0px; left: 0; right: 0;
 		}
-		#left, #cent, #rigt {
+		#textareacontainer, #dragbar, #iframecontainer {
 			float: left;
 			height: 100%;
 			width: calc(50% - 6px);
 			box-shadow: 0px 3px 5px rgb(182, 181, 181);
 		}
-		#left {
-			background: red;
-		}
-		#cent {
+		#dragbar {
 			background: rgba(0,0,0,0);
 			width: 12px;
 			box-shadow: none;
 			cursor: col-resize;
 		}
-		#rigt {
-			background: green;
-		}
-
 		#filename {
 			border: 1px solid hsl(130, 100%, 30%);
 			background: white;
 			width: 300px;
 			padding: 7px 4px;
 			text-align: left;
-		}
-		#dragbar{
-			position: absolute;
-			cursor: col-resize;
-			z-index: 3;
-			padding: 5px;
 		}
 		#shield {
 			display: none;
@@ -205,96 +171,20 @@
 		#framesize span {
 			font-family: Consolas, monospace;
 		}
-		#container {
-			background-color: #f1f1f1;
-			width: 100%;
-			overflow: auto;
-			position: absolute;
-			top: 44px;
-			bottom: 0;
-			height: auto;
-			/*height: calc(100vh - 44px); instead of position etc.*/
-		}
-		#textareacontainer, #iframecontainer {
-			float: left;
-			height: 100%;
-			width: 50%;
-		}
-		#textarea, #iframe {
-			height: 100%;
-			width: 100%;
-			padding-bottom: 10px;
-			padding-top: 1px;
-		}
-		#textarea {
-			padding-left: 10px;
-			padding-right: 5px;  
-		}
-		#iframe {
-			padding-left: 5px;
-			padding-right: 10px;  
-		}
-		#textareawrapper {
-			width: 100%;
-			height: 100%;
-			background-color: #ffffff;
-			position: relative;
-			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-		}
-		#iframewrapper {
-			width: 100%;
-			height: 100%;
-			/*-webkit-overflow-scrolling: touch;*/
-			background-color: #ffffff;
-			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-		}
-		#textareaCode {
-			background-color: #ffffff;
-			font-family: consolas,"courier new",monospace;
-			font-size: 15px;
-			height: 100%;
-			width: 100%;
-			padding: 8px;
-			resize: none;
-			border: none;
-			line-height: normal;    
-		}
 		#iframeResult {
 			background-color: #ffffff;
 			height: 100%;
 			width: 100%;  
 		}
-		#textareacontainer.horizontal,#iframecontainer.horizontal{
-			height: 50%;
-			float: none;
-			width: 100%;
-		}
-		#textarea.horizontal{
-			height: 100%;
-			padding-left: 10px;
-			padding-right: 10px;
-		}
-		#iframe.horizontal{
-			height: 100%;
-			padding-right: 10px;
-			padding-bottom: 10px;
-			padding-left: 10px;  
-		}
-		#container.horizontal{
-			min-height: 200px;
-			margin-left: 0;
-		}
+
 		@media screen and (max-width: 870px) {
-			.trytopnav {top: 0px;}
 			#container {top: 88px;}
 
 		}
 		@media screen and (max-width: 450px) {
-			.trytopnav {top: 0px;}
 			#container {top: 158px;}
 		}
 		@media only screen and (max-device-width: 768px) {
-			#iframewrapper {overflow: auto;}
 			#container     {min-width: 320px;}
 			.stack         {display: none;}
 		}
@@ -359,18 +249,15 @@
 		<input id="checkedit" checked="checked" type="checkbox" onchange="frameEditable()">
 		Editable preview: <span class="slider"></span><span id="switchflag">ON</span>
 	  </label></li>
-	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 8px 0;display: block;"><span id="framesize"></span></span></li>
+	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 8px 0;display: block;" id="framesize"></span></li>
   </ul>
   
 <div id="shield"></div>
-<a href="javascript: void(0)" id="dragbar"></a>
 
-<div id="box">
+<div id="container">
 
-<!--div id="textareacontainer">
-	<div id="textarea"-->
-		<div id="left">
-			<textarea autocomplete="on" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
+	<div id="textareacontainer">
+		<textarea autocomplete="on" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
 <html>
 <head>
 <title>Sort a HTML List Alphabetically</title>
@@ -428,22 +315,13 @@ function sortList() {
 </body>
 </html>
 
-			</textarea>
-			<form id="codeForm" autocomplete="off" style="margin: 0px;display: none;">
-				<input type="hidden" name="code" id="code" />
-			</form>
-		<!--/div>
-	</div-->
-</div>
-<div id="cent">  </div>
-<!--div id="iframecontainer">
-	<div id="iframe"-->
-		<div id="rigt">
-			<iframe id="iframeResult" style="border: none;">
-			</iframe>
-		</div>
-	<!--/div>
-</div-->
+		</textarea>
+	</div>
+	<div id="dragbar">  </div>
+	<div id="iframecontainer">
+		<iframe id="iframeResult" style="border: none;">
+		</iframe>
+	</div>
 </div>
 
 <script>
@@ -481,214 +359,106 @@ function sortList() {
 		window.editor.getDoc().setValue(text);
 	}
 	var currentStack=true;
-	var  htextareaheight=50, vtextareawidth=50;
 
 	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || stack == " horizontal") {restack(true);}
-	/*
-	function restack(horizontal) {
-		stack = "";
-		if (horizontal) {
-			stack = " horizontal";
-			$Id("textareacontainer").style.height = htextareaheight + "%";
-			$Id("textareacontainer").style.width = "100%";
-			$Id("iframecontainer").style.height = (100 - htextareaheight) + "%";
-			$Id("iframecontainer").style.width = "100%";
-			currentStack=false;
-		} else {
-			$Id("textareacontainer").style.height = "100%";
-			$Id("textareacontainer").style.width = vtextareawidth + "%";
-			$Id("iframecontainer").style.height = "100%";
-			$Id("iframecontainer").style.width = (100 - vtextareawidth) + "%";
-			currentStack=true;        
-		}
-		fixDragBtn();
-		showFrameSize();
-	}
-	*/
+
 	function showFrameSize() {
-		var t;
-		var width, height;
-		width = Number(w3_getStyleValue($Id("iframeResult"), "width").replace("px", "")).toFixed();
-		height = Number(w3_getStyleValue($Id("iframeResult"), "height").replace("px", "")).toFixed();
-		$Id("framesize").innerHTML = "Result Size: <span>" + width + " x " + height + "</span>";
+		$Id("framesize").innerHTML = "Result Size: <span>" + r["clientWidth"] + " x " + r["clientHeight"] + "</span>";
 	}
 	var dragging = false;
 	var stack;
-	function fixDragBtn() {
-		var textareawidth, leftpadding, dragleft, containertop, buttonwidth, dragbar
-		var containertop = Number(w3_getStyleValue($Id("container"), "top").replace("px", ""));
-		dragbar = $Id("dragbar");
-		if (stack != " horizontal") {
-			dragbar.style.width = "5px";    
-			textareasize = Number(w3_getStyleValue($Id("textareawrapper"), "width").replace("px", ""));
-			leftpadding = Number(w3_getStyleValue($Id("textarea"), "padding-left").replace("px", ""));
-			buttonwidth = Number(w3_getStyleValue(dragbar, "width").replace("px", ""));
-			textareaheight = w3_getStyleValue($Id("textareawrapper"), "height");
-			dragleft = textareasize + leftpadding + (leftpadding / 2) - (buttonwidth / 2);
-			dragbar.style.top = containertop + "px";
-			dragbar.style.left = dragleft + "px";
-			dragbar.style.height = textareaheight;
-			dragbar.style.cursor = "col-resize";
-			
+
+	var box = $Id("container");
+	var l = $Id("textareacontainer");
+	var c = $Id("dragbar");
+	var r = $Id("iframecontainer");
+	var layout = "horizontal";
+
+	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) ) {restack();}
+
+	var leftwidthperc = 50 ; leftheightperc = 50 ;
+	function restack() {
+		if (layout == "vertical") {
+			l.style["height"] = c.style["height"] = r.style["height"] = "100%";
+			l.style["width"] = "calc(" + leftwidthperc + "% - 6px)";
+			c.style["width"] = "12px";
+			c.style["cursor"] = "col-resize";
+			r.style["width"] = "calc(" + (100 - leftwidthperc) + "% - 6px)";
+			layout = "horizontal"
 		} else {
-			dragbar.style.height = "5px";
-			if (window.getComputedStyle) {
-					textareawidth = window.getComputedStyle($Id("textareawrapper"),null).getPropertyValue("height");
-					textareaheight = window.getComputedStyle($Id("textareawrapper"),null).getPropertyValue("width");
-					leftpadding = window.getComputedStyle($Id("textarea"),null).getPropertyValue("padding-top");
-					buttonwidth = window.getComputedStyle(dragbar,null).getPropertyValue("height");
-			} else {
-					dragleft = $Id("textareawrapper").currentStyle["width"];
-			}
-			textareawidth = Number(textareawidth.replace("px", ""));
-			leftpadding = Number(leftpadding .replace("px", ""));
-			buttonwidth = Number(buttonwidth .replace("px", ""));
-			dragleft = containertop + textareawidth + leftpadding + (leftpadding / 2);
-			dragbar.style.top = dragleft + "px";
-			dragbar.style.left = "5px";
-			dragbar.style.width = textareaheight;
-			dragbar.style.cursor = "row-resize";        
+			l.style["width"] = c.style["width"] = r.style["width"] = "100%";
+			l.style["height"] = "calc(" + leftheightperc + "% - 6px)";
+			c.style["height"] = "12px";
+			c.style["cursor"] = "row-resize";
+			r.style["height"] = "calc(" + (100 - leftheightperc) + "% - 6px)";
+			layout = "vertical"		
 		}
-	}
-	var box = $Id("box");
-  var l = $Id("left");
-  var c = $Id("cent");
-  var r = $Id("rigt");
-  var layout = "horizontal";
-  //var pos, axe1, axe2;
-  /*
-showFrameSize();
-function showFrameSize() {
-	$Id("size").innerHTML = " " + r["clientWidth"] + " x " + r["clientHeight"];
-}
-*/
-if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) ) {restack();}
-var leftwidthperc = 50 ; leftheightperc = 50 ;
-
-function restack() {
-	if (layout == "vertical") {
-		l.style["height"] = c.style["height"] = r.style["height"] = "100%";
-		l.style["width"] = "calc(" + leftwidthperc + "% - 6px)";
-		c.style["width"] = "12px";
-		c.style["cursor"] = "col-resize";
-		r.style["width"] = "calc(" + (100 - leftwidthperc) + "% - 6px)";
-		layout = "horizontal"
-	} else {
-		l.style["width"] = c.style["width"] = r.style["width"] = "100%";
-		l.style["height"] = "calc(" + leftheightperc + "% - 6px)";
-		c.style["height"] = "12px";
-		c.style["cursor"] = "row-resize";
-		r.style["height"] = "calc(" + (100 - leftheightperc) + "% - 6px)";
-		layout = "vertical"		
-	}
-	showFrameSize();
-}
-
-	//dragElement($Id(("cent")));
-	dragBalance($Id(("cent")));
-function dragBalance(balancer) {
-	if (window.addEventListener) {
-		$Id("cent").addEventListener("mousedown", function(e) {dragstart(e);});
-		$Id("cent").addEventListener("touchstart", function(e) {dragstart(e);});
-		window.addEventListener("mousemove", function(e) {dragmove(e);});
-		window.addEventListener("touchmove", function(e) {dragmove(e);});
-		window.addEventListener("mouseup", dragend);
-		window.addEventListener("touchend", dragend);
+		showFrameSize();
 	}
 
-	var dragging = false;
-  	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-	function dragstart(e) {
-		e.preventDefault();
-		e = e || window.event;
-		// get the mouse cursor position at startup:
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		dragging = true;
-	}
-	function dragmove(e) {
-		if (dragging) {
-			$Id("shield").style.display = "block";        
-			var perc;
+	dragBalance($Id(("dragbar")));
+
+	function dragBalance(balancer) {
+		if (window.addEventListener) {
+			$Id("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
+			$Id("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
+			window.addEventListener("mousemove", function(e) {dragmove(e);});
+			window.addEventListener("touchmove", function(e) {dragmove(e);});
+			window.addEventListener("mouseup", dragend);
+			window.addEventListener("touchend", dragend);
+		}
+
+		var dragging = false;
+		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+		function dragstart(e) {
+			e.preventDefault();
 			e = e || window.event;
-			// calculate the new cursor position:
-			pos1 = pos3 - e.clientX;
-			pos2 = pos4 - e.clientY;
+			// get the mouse cursor position at startup:
 			pos3 = e.clientX;
 			pos4 = e.clientY;
-			// set the element's new size:
-			if (layout == "vertical") {
-				var pos = pos2;
-				var axe1 = "clientHeight";
-				var axe2 = "height";
-			} else {
-				var pos = pos1;
-				var axe1 = "clientWidth";
-				var axe2 = "width";
+			dragging = true;
+		}
+		function dragmove(e) {
+			var perc;
+			if (dragging) {
+				// show overlay to avoid interfering of mouse moving with textarea
+				$Id("shield").style.display = "block";        
+				e = e || window.event;
+				// calculate the new cursor position:
+				pos1 = pos3 - e.clientX;
+				pos2 = pos4 - e.clientY;
+				pos3 = e.clientX;
+				pos4 = e.clientY;
+				// set the element's new size:
+				if (layout == "vertical") {
+					var pos = pos2;
+					var axe1 = "clientHeight";
+					var axe2 = "height";
+					perc = (l[axe1] + (c[axe1] / 2) - pos) * 100 / box[axe1];
+					leftheightperc = perc;
+				} else {
+					var pos = pos1;
+					var axe1 = "clientWidth";
+					var axe2 = "width";
+					perc = (l[axe1] + (c[axe1] / 2) - pos) * 100 / box[axe1];
+					leftwidthperc = perc;
+				}
+				if (perc > 5 && perc < 95) {
+					l.style[axe2] = "calc(" + (perc) + "% - " + (c[axe1] / 2) + "px)";
+					r.style[axe2] = "calc(" + (100 - perc) + "% - " + (c[axe1] / 2) + "px)";
+				}
+				showFrameSize();
 			}
-			perc = (l[axe1] + (c[axe1] / 2) - pos) * 100 / box[axe1];
-			if (perc > 5 && perc < 95) {
-				l.style[axe2] = "calc(" + (perc) + "% - " + (c[axe1] / 2) + "px)";
-				r.style[axe2] = "calc(" + (100 - perc) + "% - " + (c[axe1] / 2) + "px)";
+		}
+		function dragend() {
+			$Id("shield").style.display = "none";
+			dragging = false;
+			if (window.editor) {
+				window.editor.refresh();
 			}
-			if (layout == "vertical") {
-				leftheightperc = perc;
-			} else {
-				leftwidthperc = perc;
-			}
-			showFrameSize();
 		}
 	}
-	function dragend() {
-		$Id("shield").style.display = "none";
-		dragging = false;
-		if (window.editor) {
-			window.editor.refresh();
-		}
-	}
-}
 
-	/*
-	function dragstart(e) {
-		e.preventDefault();
-		dragging = true;
-		var main = $Id("iframecontainer");
-	}
-	function dragmove(e) {
-		if (dragging) {
-			$Id("shield").style.display = "block";        
-			if (stack != " horizontal") {
-				var percentage = (e.pageX / window.innerWidth) * 100;
-				if (percentage > 5 && percentage < 98) {
-					var mainPercentage = 100-percentage;
-					$Id("textareacontainer").style.width = percentage + "%";
-					$Id("iframecontainer").style.width = mainPercentage + "%";
-					vtextareawidth = percentage;
-					fixDragBtn();
-				}
-			} else {
-				var containertop = Number(w3_getStyleValue($Id("container"), "top").replace("px", ""));
-				var percentage = ((e.pageY - containertop + 20) / (window.innerHeight - containertop + 20)) * 100;
-				if (percentage > 5 && percentage < 98) {
-					var mainPercentage = 100-percentage;
-					$Id("textareacontainer").style.height = percentage + "%";
-					$Id("iframecontainer").style.height = mainPercentage + "%";
-					htextareaheight = percentage;
-					fixDragBtn();
-				}
-			}
-			//console.log(percentage);
-			showFrameSize();    
-		}
-	}
-	function dragend() {
-		$Id("shield").style.display = "none";
-		dragging = false;
-		if (window.editor) {
-			window.editor.refresh();
-		}
-	}
-	*/
 	function keypressed(e) {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {submitTryit(1)};
 	}
@@ -696,23 +466,15 @@ function dragBalance(balancer) {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {reEdited()};
 		setTimeout(reEdited,100);
 	}
-	function setFocusIframe() {
-		frameWindow().focus();
-	}
 	if (window.addEventListener) {
-		/*$Id("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
-		$Id("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
-		window.addEventListener("mousemove", function(e) {dragmove(e);});
-		window.addEventListener("touchmove", function(e) {dragmove(e);});
-		window.addEventListener("mouseup", dragend);
-		window.addEventListener("touchend", dragend);*/
-		window.addEventListener("load", fixDragBtn);
 		window.addEventListener("load", showFrameSize);
-		//$Id("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
+		$Id("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
 	}
 	frameWindow().addEventListener("keyup", keypressedinframe);
-	//$Id("iframeResult").contentWindow.addEventListener("mousedown", function(e) {setTimeout(setFocusIframe, 100);return false});
-
+	/*
+	function setFocusIframe() {frameWindow().focus();}
+	$Id("iframeResult").contentWindow.addEventListener("mousedown", function(e) {setTimeout(setFocusIframe, 100);return false});
+	*/
 	function colorcoding() {  
 		window.editor = CodeMirror.fromTextArea($Id("textareaCode"), {
 			mode: "text/html",
@@ -730,14 +492,6 @@ function dragBalance(balancer) {
 		//window.editor.on("change", function () {submitTryit(1)}); better avoid this due to "conflict" with contentEditable
 	}
 	colorcoding();
-
-	function w3_getStyleValue(elmnt,style) {
-		if (window.getComputedStyle) {
-			return window.getComputedStyle(elmnt,null).getPropertyValue(style);
-		} else {
-			return elmnt.currentStyle[style];
-		}
-	}
 
 	function frameWindow(){
 		var ifr = $Id("iframeResult");
@@ -792,10 +546,10 @@ function dragBalance(balancer) {
 		var source = frameHTML();
 	    //now we need to escape the html special chars, javascript has escape
     	//but this does not do what we want
-    	source = source.replace(/</g, "&lt;");//.replace(/>/g, "&gt;");
+    	source = source.replace(/</g, "&lt;");
     	//now we add <pre> tags to preserve whitespace
     	source = "<pre>" + source + "</pre>";
-		var sourceWindow = window.open('Nice Title','Source of page','');//height=800,width=800,scrollbars=1,resizable=1');
+		var sourceWindow = window.open('Nice Title','Source of page','');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
 	}
