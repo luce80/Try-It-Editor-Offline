@@ -519,16 +519,16 @@ function sortList() {
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		saveAs(blob, getName());
 	}
-    function loadFromLocalStorage() {
-        //Load saved Content
+	function loadFromLocalStorage() {
+		//Load saved Content
 		var text = localStorage.getItem(getName());
-        if (text != null) {
+		if (text != null) {
 			$Id("textareaCode").value = text;
 			window.editor.getDoc().setValue(text);
 			submitTryit();
-        }
-    }
-    function saveToLocalStorage() {
+		}
+	}
+	function saveToLocalStorage() {
 		if (typeof(Storage) !== "undefined") {
 			var sHTML = frameHTML(); //Get content
 			localStorage.setItem(getName(), sHTML);
@@ -536,14 +536,14 @@ function sortList() {
 		} else {
 			alert("No localStorage available")
 		}
-    }
+	}
 	function viewSource() {
 		var source = frameHTML();
-	    //now we need to escape the html special chars, javascript has escape
-    	//but this does not do what we want
-    	source = source.replace(/</g, "&lt;");
-    	//now we add <pre> tags to preserve whitespace
-    	source = "<pre>" + source + "</pre>";
+		//now we need to escape the html special chars, javascript has escape
+		//but this does not do what we want
+		source = source.replace(/</g, "&lt;");
+		//now we add <pre> tags to preserve whitespace
+		source = "<pre>" + source + "</pre>";
 		var sourceWindow = window.open('Nice Title','Source of page','');
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
@@ -557,7 +557,8 @@ function sortList() {
 			framecontentedit = false;
 			$Id("switchflag").innerHTML = "OFF";
 		}
-		submitTryit()
+		submitTryit();
+		reEdited();
 	}
 
 </script>
