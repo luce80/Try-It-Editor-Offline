@@ -178,12 +178,17 @@
 			width: 100%;  
 		}
 
-		@media screen and (max-width: 870px) {
-			#container {top: 88px;}
-
+		@media screen and (max-width: 1260px) {
+			#container {
+				top: 88px;
+				height: calc(100% - 10px - 88px);
+			}
 		}
 		@media screen and (max-width: 450px) {
-			#container {top: 158px;}
+			#container {
+				top: 160px;
+				height: calc(100% - 10px - 160px);
+			}
 		}
 		@media only screen and (max-device-width: 768px) {
 			#container     {min-width: 320px;}
