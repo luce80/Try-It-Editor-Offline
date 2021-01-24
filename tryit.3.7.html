@@ -370,10 +370,10 @@ function sortList() {
 	}
 
 	var layout = "horizontal";
+	var leftwidthperc = 50 ; leftheightperc = 50 ;
 
 	if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) ) {restack();}
 
-	var leftwidthperc = 50 ; leftheightperc = 50 ;
 	function restack() {
 		var l = $Id("textareacontainer");
 		var c = $Id("dragbar");
